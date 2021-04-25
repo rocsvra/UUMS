@@ -5,15 +5,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>.\UUMS.Domain.xml</DocumentationFile>
+    <DocumentationFile>.\UUMS.Application.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AdunTech.CommonDomain" Version="1.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="UUMS.Domain.xml">
+    <None Update="UUMS.Application.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

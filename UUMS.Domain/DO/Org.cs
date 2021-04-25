@@ -19,7 +19,7 @@ namespace UUMS.Domain.DO
         /// <summary>
         /// 父Id
         /// </summary>
-        public string ParentId { get; set; }
+        public Guid? ParentId { get; set; }
         /// <summary>
         /// 描述
         /// </summary>

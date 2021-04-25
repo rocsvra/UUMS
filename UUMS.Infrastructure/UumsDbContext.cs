@@ -1,19 +1,22 @@
-﻿using Common.Infrastructure;
+﻿using AdunTech.CommonInfra;
 using Microsoft.EntityFrameworkCore;
 using UUMS.Domain.DO;
 using UUMS.Infrastructure.EntityConfigurations;
 
 namespace UUMS.Infrastructure
 {
-    public class UUMS_Context : DbContext, IDbContext
+    public class UumsDbContext : DbContext, IDbContext
     {
-        public UUMS_Context(DbContextOptions<UUMS_Context> options) : base(options)
-        {
-        }
+        public UumsDbContext() { }
+
+        public UumsDbContext(DbContextOptions<UumsDbContext> options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=.;Database=UUMS;Trusted_Connection=True;");
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=.;User Id=sa;Password=1;Database=UUMS;Persist Security Info=True;");
+            }
         }
 
         public DbSet<Client> Clients { get; set; }
@@ -32,7 +35,6 @@ namespace UUMS.Infrastructure
             modelBuilder.ApplyConfiguration(new OrgCfg());
             modelBuilder.ApplyConfiguration(new RoleCfg());
             modelBuilder.ApplyConfiguration(new UserCfg());
-            modelBuilder.ApplyConfiguration(new UserRoleCfg());
         }
     }
 }

@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UUMS.API</name>
+    </assembly>
+    <members>
+        <member name="M:UUMS.API.Controllers.ClientController.GetPage(System.Int32,System.Int32,System.String)">
+            <summary>
+            获取客户端(分页)
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UUMS.API.Controllers.ClientController.Get(System.Guid)">
+            <summary>
+            获取客户端
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UUMS.API.Controllers.ClientController.Post(UUMS.Application.Dtos.ClientParam)">
+            <summary>
+            添加客户端
+            </summary>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UUMS.API.Controllers.ClientController.Put(System.Guid,UUMS.Application.Dtos.ClientParam)">
+            <summary>
+            修改客户端
+            </summary>
+            <param name="id"></param>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UUMS.API.Controllers.ClientController.Post(System.Guid)">
+            <summary>
+            删除客户端
+            </summary>
+            <param name="id"></param>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
+        <member name="T:UUMS.API.RepositoryRegister">
+            <summary>
+            注册仓储
+            </summary>
+        </member>
+    </members>
+</doc>

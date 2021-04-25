@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UUMS.Application</name>
+    </assembly>
+    <members>
+        <member name="P:UUMS.Application.Dtos.ClientDto.Id">
+            <summary>
+            id
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.ClientDto.Name">
+            <summary>
+            客户端名称
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.ClientDto.HasMenu">
+            <summary>
+            是否拥有菜单
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.ClientDto.SortNo">
+            <summary>
+            排序号
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.ClientParam.Name">
+            <summary>
+            客户端名称
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.ClientParam.HasMenu">
+            <summary>
+            是否拥有菜单
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.ClientParam.SortNo">
+            <summary>
+            排序号
+            </summary>
+        </member>
+    </members>
+</doc>

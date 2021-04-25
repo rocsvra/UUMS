@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace UUMS.Domain.DO
+namespace UUMS.Application.Dtos
 {
-    /// <summary>
-    /// 客户端
-    /// </summary>
-    public class Client
+    public class ClientDto
     {
         /// <summary>
         /// id
@@ -24,10 +20,5 @@ namespace UUMS.Domain.DO
         /// 排序号
         /// </summary>
         public int SortNo { get; set; }
-
-        /// <summary>
-        /// 菜单
-        /// </summary>
-        public ICollection<Menu> Menus { get; set; }
     }
 }

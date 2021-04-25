@@ -8,6 +8,7 @@ namespace UUMS.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Job> builder)
         {
+            builder.ToTable("Job");
             builder.HasKey(o => o.Id);
             builder.Property(o => o.Name).IsRequired().HasMaxLength(50);
 

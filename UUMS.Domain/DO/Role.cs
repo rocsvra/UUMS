@@ -44,11 +44,10 @@ namespace UUMS.Domain.DO
         /// <summary>
         /// 关联菜单
         /// </summary>
-        public ICollection<Menu> Menus { get; set; }
-        
+        public ICollection<Menu> Menus { get; set; }        
         /// <summary>
-        /// 用户
+        /// 关联用户
         /// </summary>
-        public ICollection<UserRole> UserRoles { get; set; }
+        public ICollection<User> Users { get; set; }
     }
 }

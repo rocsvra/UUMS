@@ -8,12 +8,21 @@ namespace UUMS.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.ToTable("User");
             builder.HasKey(o => new { o.Id });
-            builder.Property(o => o.Name).IsRequired().HasColumnType("varchar(50)").HasMaxLength(20);
+            builder.Property(o => o.Name)
+                .IsRequired()
+                .HasColumnType("varchar(50)")
+                .HasMaxLength(20);
+            builder.Property(o => o.JobNo)
+                .HasColumnType("varchar(50)")
+                .HasMaxLength(20);
 
             builder.HasOne(o => o.Org)
                 .WithMany(o => o.Users)
                 .HasForeignKey(o => o.OrgId);
+
+            builder.HasMany(o=>o.Roles);
         }
     }
 }

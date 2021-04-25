@@ -3,7 +3,7 @@
 namespace UUMS.Domain.DO
 {
     /// <summary>
-    /// 岗位
+    /// 工作岗位
     /// </summary>
     public class Job
     {

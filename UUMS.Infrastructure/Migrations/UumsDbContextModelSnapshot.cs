@@ -8,16 +8,46 @@ using UUMS.Infrastructure;
 
 namespace UUMS.Infrastructure.Migrations
 {
-    [DbContext(typeof(UUMS_Context))]
-    partial class UUMS_ContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(UumsDbContext))]
+    partial class UumsDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("MenuRole", b =>
+                {
+                    b.Property<Guid>("MenusId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RolesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("MenusId", "RolesId");
+
+                    b.HasIndex("RolesId");
+
+                    b.ToTable("MenuRole");
+                });
+
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.Property<Guid>("RolesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UsersId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("RolesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("RoleUser");
+                });
 
             modelBuilder.Entity("UUMS.Domain.DO.Client", b =>
                 {
@@ -25,17 +55,20 @@ namespace UUMS.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("HasMenu")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<bool>("NeedMenu")
-                        .HasColumnType("bit")
-                        .HasMaxLength(50);
+                    b.Property<int>("SortNo")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clients");
+                    b.ToTable("Client");
                 });
 
             modelBuilder.Entity("UUMS.Domain.DO.Job", b =>
@@ -46,8 +79,8 @@ namespace UUMS.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<Guid>("OrgId")
                         .HasColumnType("uniqueidentifier");
@@ -59,7 +92,7 @@ namespace UUMS.Infrastructure.Migrations
 
                     b.HasIndex("OrgId");
 
-                    b.ToTable("Jobs");
+                    b.ToTable("Job");
                 });
 
             modelBuilder.Entity("UUMS.Domain.DO.Menu", b =>
@@ -68,52 +101,69 @@ namespace UUMS.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("AlwaysShow")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("ClientId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Component")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("Hidden")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Icon")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime>("LastUpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastUpdatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("ParentId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("NoCache")
+                        .HasColumnType("bit");
 
-                    b.Property<Guid?>("RoleId")
+                    b.Property<Guid?>("ParentId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Path")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Redirect")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<int>("SortNo")
                         .HasColumnType("int");
 
-                    b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Title")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
 
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("Menus");
+                    b.ToTable("Menu");
                 });
 
             modelBuilder.Entity("UUMS.Domain.DO.Org", b =>
@@ -123,21 +173,23 @@ namespace UUMS.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("ParentId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("SortNo")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orgs");
+                    b.ToTable("Org");
                 });
 
             modelBuilder.Entity("UUMS.Domain.DO.Role", b =>
@@ -151,10 +203,12 @@ namespace UUMS.Infrastructure.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<bool>("Enabled")
                         .HasColumnType("bit");
@@ -163,16 +217,17 @@ namespace UUMS.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastUpdatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("UUMS.Domain.DO.User", b =>
@@ -181,10 +236,14 @@ namespace UUMS.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("JobNo")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(20);
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
 
                     b.Property<Guid>("OrgId")
                         .HasColumnType("uniqueidentifier");
@@ -193,22 +252,37 @@ namespace UUMS.Infrastructure.Migrations
 
                     b.HasIndex("OrgId");
 
-                    b.ToTable("Users");
+                    b.ToTable("User");
                 });
 
-            modelBuilder.Entity("UUMS.Domain.DO.UserRole", b =>
+            modelBuilder.Entity("MenuRole", b =>
                 {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasOne("UUMS.Domain.DO.Menu", null)
+                        .WithMany()
+                        .HasForeignKey("MenusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasOne("UUMS.Domain.DO.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-                    b.HasKey("UserId", "RoleId");
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.HasOne("UUMS.Domain.DO.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("UserRole");
+                    b.HasOne("UUMS.Domain.DO.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("UUMS.Domain.DO.Job", b =>
@@ -218,6 +292,8 @@ namespace UUMS.Infrastructure.Migrations
                         .HasForeignKey("OrgId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Org");
                 });
 
             modelBuilder.Entity("UUMS.Domain.DO.Menu", b =>
@@ -225,12 +301,10 @@ namespace UUMS.Infrastructure.Migrations
                     b.HasOne("UUMS.Domain.DO.Client", "Client")
                         .WithMany("Menus")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("UUMS.Domain.DO.Role", null)
-                        .WithMany("Menus")
-                        .HasForeignKey("RoleId");
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("UUMS.Domain.DO.User", b =>
@@ -240,21 +314,20 @@ namespace UUMS.Infrastructure.Migrations
                         .HasForeignKey("OrgId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Org");
                 });
 
-            modelBuilder.Entity("UUMS.Domain.DO.UserRole", b =>
+            modelBuilder.Entity("UUMS.Domain.DO.Client", b =>
                 {
-                    b.HasOne("UUMS.Domain.DO.Role", "Role")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Menus");
+                });
 
-                    b.HasOne("UUMS.Domain.DO.User", "User")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            modelBuilder.Entity("UUMS.Domain.DO.Org", b =>
+                {
+                    b.Navigation("Jobs");
+
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

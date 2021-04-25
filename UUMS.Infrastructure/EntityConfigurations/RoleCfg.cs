@@ -8,11 +8,14 @@ namespace UUMS.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Role> builder)
         {
+            builder.ToTable("Role");
             builder.HasKey(o => o.Id);
             builder.Property(o => o.Name).IsRequired().HasMaxLength(50);
+            builder.Property(o => o.Description).HasMaxLength(200);
             builder.Property(o => o.Enabled).IsRequired();
             builder.Property(o => o.CreatedAt).IsRequired();
-            builder.Property(o => o.CreatedBy).IsRequired();
+            builder.Property(o => o.CreatedBy).IsRequired().HasMaxLength(50);
+            builder.Property(o => o.LastUpdatedBy).HasMaxLength(50);
         }
     }
 }
