@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:30096",
+      "applicationUrl": "http://localhost:1000",
       "sslPort": 0
     }
   },
@@ -11,17 +11,16 @@
   "profiles": {
     "IIS Express": {
       "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "swagger",
+      "launchUrl": "weatherforecast",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:30096"
+      "applicationUrl": "http://localhost:1000"
     },
-    "UUMS.API": {
+    "OcelotApiGateway": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "swagger",
+      "launchUrl": "weatherforecast",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

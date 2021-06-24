@@ -2,13 +2,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace UUMS.API
+namespace OcelotApiGateway
 {
     public class Program
     {
@@ -19,13 +18,14 @@ namespace UUMS.API
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostingContext, builder) =>
+                {
+                    builder.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseUrls("http://localhost:1000");
                     webBuilder.UseStartup<Startup>();
-                }).UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
-                   .ReadFrom.Configuration(hostingContext.Configuration)
-                   .Enrich.WithProperty("ApplicationName", hostingContext.HostingEnvironment.ApplicationName)
-                   .Enrich.FromLogContext()
-                );
+                });
     }
 }

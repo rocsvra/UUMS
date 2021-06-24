@@ -1,0 +1,19 @@
+{
+  "ReRoutes": [ //服务器的路由配置
+    { //案例一 路由
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 2000
+        }
+      ],
+      "UpstreamPathTemplate": "/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post" ]
+    }
+  ],
+  "GlobalConfiguration": { //全局配置项
+    "BaseUrl": "http://api.uums.cn"
+  }
+}

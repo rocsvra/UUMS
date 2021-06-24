@@ -59,12 +59,12 @@ namespace UUMS.API
                 {
                     //Swagger文档样例参数说明不使用驼峰
                     options.JsonSerializerOptions.PropertyNamingPolicy = null;
-                }); ;
+                });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "UUMS.API", Version = "v1" });
 
-                c.OrderActionsBy(o => o.HttpMethod); 
+                c.OrderActionsBy(o => o.HttpMethod);
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "UUMS.API.xml"), true);
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "UUMS.Domain.xml"));
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "UUMS.Application.xml"));
@@ -77,9 +77,10 @@ namespace UUMS.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "UUMS.API v1"));
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "UUMS.API v1"));
 
             app.UseProblemDetails();
 

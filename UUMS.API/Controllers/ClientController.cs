@@ -26,9 +26,11 @@ namespace UUMS.API.Controllers
         }
 
         /// <summary>
-        /// 获取客户端(分页)
+        ///  获取客户端(分页)
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="pageIndex">从0开始计数</param>
+        /// <param name="pageSize"></param>
+        /// <param name="name"></param>
         /// <returns></returns>
         [HttpGet("Page")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -117,7 +119,6 @@ namespace UUMS.API.Controllers
         /// 删除客户端
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="param"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

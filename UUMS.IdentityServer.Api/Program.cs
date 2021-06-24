@@ -2,13 +2,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace UUMS.API
+namespace UUMS.IdentityServer.Api
 {
     public class Program
     {
@@ -22,10 +21,6 @@ namespace UUMS.API
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                }).UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
-                   .ReadFrom.Configuration(hostingContext.Configuration)
-                   .Enrich.WithProperty("ApplicationName", hostingContext.HostingEnvironment.ApplicationName)
-                   .Enrich.FromLogContext()
-                );
+                });
     }
 }
