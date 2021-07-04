@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UUMS.Infrastructure;
 
 namespace UUMS.Infrastructure.Migrations
 {
     [DbContext(typeof(UumsDbContext))]
-    partial class UumsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210703032626_user")]
+    partial class user
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -255,7 +257,7 @@ namespace UUMS.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
-                    b.Property<Guid?>("OrgId")
+                    b.Property<Guid>("OrgId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Password")
@@ -266,8 +268,6 @@ namespace UUMS.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasAlternateKey("Account");
 
                     b.HasIndex("OrgId");
 
@@ -330,7 +330,9 @@ namespace UUMS.Infrastructure.Migrations
                 {
                     b.HasOne("UUMS.Domain.DO.Org", "Org")
                         .WithMany("Users")
-                        .HasForeignKey("OrgId");
+                        .HasForeignKey("OrgId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Org");
                 });

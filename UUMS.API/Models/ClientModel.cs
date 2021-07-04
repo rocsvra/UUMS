@@ -1,6 +1,6 @@
-﻿namespace UUMS.Application.Dtos
+﻿namespace UUMS.API
 {
-    public class ClientParam
+    public class ClientModel
     {
         /// <summary>
         /// 客户端名称

@@ -1,23 +1,20 @@
-using AdunTech.ExceptionDetail;
+Ôªøusing AdunTech.ExceptionDetail;
 using Hellang.Middleware.ProblemDetails;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
 using UUMS.Infrastructure;
 
 namespace UUMS.API
@@ -37,32 +34,82 @@ namespace UUMS.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.RegisterDbContexts(Configuration.GetConnectionString("Bull_HR"));
-            services.RegisteRepository();
+            //Ê≥®ÂÜå‰ªìÂÇ®
+            services.RegisterRepository(Configuration.GetConnectionString("Bull_HR"));
+            //Ê≥®ÂÜåÂºÇÂ∏∏Â§ÑÁêÜ
             services.AddProblemDetails(ConfigureProblemDetails);
 
+            services.Configure<JwtTokenOptions>(Configuration.GetSection("JwtToken"));
+            //Ê≥®ÂÜåËÆ§ËØÅ
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+               .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+               {
+                   var securityKey = Configuration.GetSection("JwtToken:SecurityKey").Value;
+                   var issuer = Configuration.GetSection("JwtToken:Issuer").Value;
+                   var audience = Configuration.GetSection("JwtToken:Audience").Value;
+                   JwtTokenOptions jwtTokenOptions = new JwtTokenOptions()
+                   {
+                       SecurityKey = securityKey,
+                       Issuer = issuer,
+                       Audience = audience
+                   };
+                   options.TokenValidationParameters = new TokenValidationParameters()
+                   {
+                       ValidateIssuerSigningKey = true,
+                       IssuerSigningKey = jwtTokenOptions.Key,
+
+                       ValidateIssuer = true,
+                       ValidIssuer = jwtTokenOptions.Issuer,
+
+                       ValidateAudience = true,
+                       ValidAudience = jwtTokenOptions.Audience,
+
+                       ValidateLifetime = true,
+                       ClockSkew = TimeSpan.FromMinutes(5)
+                   };
+               });
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
                 {
-                    //≤ª π”√Õ’∑Â—˘ Ω
+                    //‰∏ç‰ΩøÁî®È©ºÂ≥∞Ê†∑Âºè
                     options.SerializerSettings.ContractResolver = new DefaultContractResolver()
                     {
                         NamingStrategy = new DefaultNamingStrategy()
                     };
                     options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Local;
-                    // ±º‰∏Ò Ω
+                    //Êó∂Èó¥Ê†ºÂºè
                     options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
-                    //∫ˆ¬‘—≠ª∑“˝”√
+                    //ÂøΩÁï•Âæ™ÁéØÂºïÁî®
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 })
                 .AddJsonOptions(options =>
                 {
-                    //SwaggerŒƒµµ—˘¿˝≤Œ ˝Àµ√˜≤ª π”√Õ’∑Â
+                    //SwaggerÊñáÊ°£Ê†∑‰æãÂèÇÊï∞ËØ¥Êòé‰∏ç‰ΩøÁî®È©ºÂ≥∞
                     options.JsonSerializerOptions.PropertyNamingPolicy = null;
                 });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "UUMS.API", Version = "v1" });
+
+                var securityScheme = new OpenApiSecurityScheme
+                {
+                    Name = "JWT ËÆ§ËØÅ",
+                    Description = "ËæìÂÖ• JWT bearer token",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    Reference = new OpenApiReference
+                    {
+                        Id = JwtBearerDefaults.AuthenticationScheme,
+                        Type = ReferenceType.SecurityScheme
+                    }
+                };
+                c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    { securityScheme, new string[] { } }
+                });
 
                 c.OrderActionsBy(o => o.HttpMethod);
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "UUMS.API.xml"), true);
@@ -102,12 +149,12 @@ namespace UUMS.API
             options.MapToStatusCode<NotImplementedException>(StatusCodes.Status501NotImplemented);
             options.MapToStatusCode<HttpRequestException>(StatusCodes.Status503ServiceUnavailable);
 
-            //=====◊‘∂®“Â“Ï≥£=====
+            //=====Ëá™ÂÆö‰πâÂºÇÂ∏∏=====
             string errUrl = "http://aduntech.com/error/codes/";
             options.Map<ResourceNotFoundException>(ex => new ResourceNotFoundExceptionDetails(errUrl, ex));
             options.Map<BadRequestException>(ex => new BadRequestExceptionDetails(errUrl, ex));
             options.Map<InternalServerException>(ex => new InternalServerExceptionDetails(errUrl, ex));
-            //=====◊‘∂®“Â“Ï≥£=====
+            //=====Ëá™ÂÆö‰πâÂºÇÂ∏∏=====
 
             options.MapToStatusCode<Exception>(StatusCodes.Status500InternalServerError);
         }

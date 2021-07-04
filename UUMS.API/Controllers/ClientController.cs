@@ -75,13 +75,13 @@ namespace UUMS.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public ActionResult<ClientDto> Post(ClientParam param)
+        public ActionResult<ClientDto> Post(ClientModel param)
         {
             if (string.IsNullOrWhiteSpace(param.Name))
             {
                 throw new BadRequestException(HttpContext.TraceIdentifier, "ParameterError");
             }
-            var dto = param.Map<ClientParam, ClientDto>();
+            var dto = param.Map<ClientModel, ClientDto>();
             dto.Id = Guid.NewGuid();
             var entity = dto.Map<ClientDto, Client>();
             _unitOfWork.AddAndCommit(entity);
@@ -98,7 +98,7 @@ namespace UUMS.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public ActionResult Put(Guid id, [FromBody] ClientParam param)
+        public ActionResult Put(Guid id, [FromBody] ClientModel param)
         {
             if (string.IsNullOrWhiteSpace(param.Name))
             {
@@ -109,7 +109,7 @@ namespace UUMS.API.Controllers
                 throw new BadRequestException(HttpContext.TraceIdentifier, "ParameterError", "id不存在");
             }
 
-            var entity = param.Map<ClientParam, Client>();
+            var entity = param.Map<ClientModel, Client>();
             entity.Id = id;
             _unitOfWork.ModifyAndCommit(entity);
             return Ok();

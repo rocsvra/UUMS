@@ -4,6 +4,11 @@
         <name>UUMS.Application</name>
     </assembly>
     <members>
+        <member name="T:UUMS.Application.Dtos.ClientDto">
+            <summary>
+            客户端
+            </summary>
+        </member>
         <member name="P:UUMS.Application.Dtos.ClientDto.Id">
             <summary>
             id
@@ -24,19 +29,44 @@
             排序号
             </summary>
         </member>
-        <member name="P:UUMS.Application.Dtos.ClientParam.Name">
+        <member name="T:UUMS.Application.Dtos.UserDto">
             <summary>
-            客户端名称
+            用户
             </summary>
         </member>
-        <member name="P:UUMS.Application.Dtos.ClientParam.HasMenu">
+        <member name="P:UUMS.Application.Dtos.UserDto.Id">
             <summary>
-            是否拥有菜单
+            id
             </summary>
         </member>
-        <member name="P:UUMS.Application.Dtos.ClientParam.SortNo">
+        <member name="P:UUMS.Application.Dtos.UserDto.Name">
             <summary>
-            排序号
+            用户姓名
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.UserDto.Account">
+            <summary>
+            账号/工号
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.UserDto.Sex">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.UserDto.Mobile">
+            <summary>
+            手机
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.UserDto.Mail">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.UserDto.CreatedAt">
+            <summary>
+            创建时间
             </summary>
         </member>
     </members>

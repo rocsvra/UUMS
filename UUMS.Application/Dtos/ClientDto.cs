@@ -2,6 +2,9 @@
 
 namespace UUMS.Application.Dtos
 {
+    /// <summary>
+    /// 客户端
+    /// </summary>
     public class ClientDto
     {
         /// <summary>

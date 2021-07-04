@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace UUMS.Domain.DO
+﻿namespace UUMS.API
 {
     /// <summary>
     /// 用户
     /// </summary>
-    public class User
+    public class UserModel
     {
-        /// <summary>
-        /// id
-        /// </summary>
-        public Guid Id { get; set; }
         /// <summary>
         /// 用户姓名
         /// </summary>
@@ -20,10 +13,6 @@ namespace UUMS.Domain.DO
         /// 账号/工号
         /// </summary>
         public string Account { get; set; }
-        /// <summary>
-        /// 密码
-        /// </summary>
-        public string Password { get; set; }
         /// <summary>
         /// 性别
         /// </summary>
@@ -36,18 +25,17 @@ namespace UUMS.Domain.DO
         /// 邮箱
         /// </summary>
         public string Mail { get; set; }
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public DateTime CreatedAt { get; set; }
+    }
 
+    public class UserPswModel
+    {
         /// <summary>
-        /// 组织机构
+        /// 密码
         /// </summary>
-        public Org? Org { get; set; }
+        public string Password { get; set; }
         /// <summary>
-        /// 用户角色
+        /// 确认密码
         /// </summary>
-        public ICollection<Role> Roles { get; set; }
+        public string RepeatPassword { get; set; }
     }
 }
