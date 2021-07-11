@@ -16,7 +16,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:30096"
+      "applicationUrl": "http://localhost:1800"
     },
     "UUMS.API": {
       "commandName": "Project",

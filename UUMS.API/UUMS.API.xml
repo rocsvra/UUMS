@@ -46,8 +46,14 @@
             <summary>
             获取口令
             </summary>
-            <param name="account">账户</param>
+            <param name="username">账户</param>
             <param name="password">密码</param>
+            <returns></returns>
+        </member>
+        <member name="M:UUMS.API.Controllers.UserController.GetUserInfo">
+            <summary>
+            获取用户信息
+            </summary>
             <returns></returns>
         </member>
         <member name="M:UUMS.API.Controllers.UserController.GetPage(System.Int32,System.Int32,System.String)">
@@ -95,6 +101,21 @@
         <member name="P:UUMS.API.ClientModel.SortNo">
             <summary>
             排序号
+            </summary>
+        </member>
+        <member name="T:UUMS.API.JwtToken">
+            <summary>
+            token
+            </summary>
+        </member>
+        <member name="P:UUMS.API.JwtToken.token">
+            <summary>
+            口令
+            </summary>
+        </member>
+        <member name="P:UUMS.API.JwtToken.expiration">
+            <summary>
+            过期时间
             </summary>
         </member>
         <member name="T:UUMS.API.UserModel">

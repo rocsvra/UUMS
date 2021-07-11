@@ -34,6 +34,15 @@ namespace UUMS.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //跨域设置
+            services.AddCors(options => options.AddPolicy("policy",
+                    builder =>
+                    {
+                        builder.AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .WithOrigins("http://localhost:9528/");
+                    }));
+
             //注册仓储
             services.RegisterRepository(Configuration.GetConnectionString("Bull_HR"));
             //注册异常处理
@@ -125,14 +134,15 @@ namespace UUMS.API
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseStaticFiles();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "UUMS.API v1"));
 
             app.UseProblemDetails();
 
             app.UseRouting();
-
+            app.UseAuthentication();
+            app.UseCors("policy");
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

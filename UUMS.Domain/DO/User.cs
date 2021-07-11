@@ -29,6 +29,10 @@ namespace UUMS.Domain.DO
         /// </summary>
         public bool? Sex { get; set; }
         /// <summary>
+        /// 头像
+        /// </summary>
+        public string Avatar { get; set; }
+        /// <summary>
         /// 手机
         /// </summary>
         public string Mobile { get; set; }

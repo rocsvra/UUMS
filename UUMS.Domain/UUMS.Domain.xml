@@ -289,6 +289,11 @@
             性别
             </summary>
         </member>
+        <member name="P:UUMS.Domain.DO.User.Avatar">
+            <summary>
+            头像
+            </summary>
+        </member>
         <member name="P:UUMS.Domain.DO.User.Mobile">
             <summary>
             手机

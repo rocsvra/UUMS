@@ -21,6 +21,8 @@ namespace UUMS.Infrastructure.EntityConfigurations
                 .HasColumnType("varchar(100)");
             builder.Property(o => o.Sex)
                 .HasColumnType("bit");
+            builder.Property(o => o.Avatar)
+                .HasColumnType("varchar(150)");
             builder.Property(o => o.Mobile)
                 .IsRequired()
                 .HasColumnType("varchar(50)");

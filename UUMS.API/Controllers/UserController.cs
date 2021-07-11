@@ -4,10 +4,12 @@ using AdunTech.CommonDomain;
 using AdunTech.Cryptography;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Security.Claims;
 using UUMS.Application.Dtos;
 using UUMS.Domain.DO;
 using UUMS.Domain.IRepositories;
@@ -17,6 +19,7 @@ namespace UUMS.API.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("UUMS")]
     public class UserController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -26,6 +29,19 @@ namespace UUMS.API.Controllers
         {
             _unitOfWork = unitOfWork;
             _userRepository = userRepository;
+        }
+
+        /// <summary>
+        /// 获取用户信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("Info")]
+        public ActionResult GetUserInfo()
+        {
+            var claimsIdentity = this.User.Identity as ClaimsIdentity;
+            var userid = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;
+            var claim = User.Claims;
+            return Ok();
         }
 
         /// <summary>
