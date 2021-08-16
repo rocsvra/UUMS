@@ -32,10 +32,10 @@ namespace UUMS.Domain.DO
         /// <summary>
         /// 关联用户
         /// </summary>
-        public ICollection<User> Users { get; set; }
+        public List<User> Users { get; set; }
         /// <summary>
         /// 关联岗位
         /// </summary>
-        public ICollection<Job> Jobs { get; set; }
+        public List<Job> Jobs { get; set; }
     }
 }

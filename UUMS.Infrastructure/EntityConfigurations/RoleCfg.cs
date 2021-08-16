@@ -15,6 +15,7 @@ namespace UUMS.Infrastructure.EntityConfigurations
             builder.Property(o => o.Enabled).IsRequired();
             builder.Property(o => o.CreatedAt).IsRequired();
             builder.Property(o => o.CreatedBy).IsRequired().HasMaxLength(50);
+            builder.Property(o => o.LastUpdatedAt);
             builder.Property(o => o.LastUpdatedBy).HasMaxLength(50);
         }
     }

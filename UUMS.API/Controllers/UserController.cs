@@ -7,8 +7,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using UUMS.Application.Dtos;
 using UUMS.Domain.DO;
@@ -19,16 +23,73 @@ namespace UUMS.API.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors("UUMS")]
+    [EnableCors("policy")]
     public class UserController : ControllerBase
     {
+        private readonly JwtTokenOptions _jwtTokenOptions;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserRepository _userRepository;
+        private readonly IRoleRepository _roleRepository;
 
-        public UserController(IUnitOfWork unitOfWork, IUserRepository userRepository)
+        public UserController(IUnitOfWork unitOfWork
+            , IOptionsMonitor<JwtTokenOptions> jwtTokenOptions
+            , IUserRepository userRepository
+            , IRoleRepository roleRepository)
         {
+            _jwtTokenOptions = jwtTokenOptions.CurrentValue;
             _unitOfWork = unitOfWork;
             _userRepository = userRepository;
+            _roleRepository = roleRepository;
+        }
+
+        /// <summary>
+        /// 获取口令
+        /// </summary>
+        /// <param name="username">账户</param>
+        /// <param name="password">密码</param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet("Token")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public ActionResult<JwtToken> Get(string username, string password)
+        {
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                return BadRequest("参数不能为空");
+            }
+            var user = _userRepository.FirstOrDefault(o => o.Account == username);
+            if (user == null)
+            {
+                return BadRequest("account不存在");
+            }
+            var psw = MD5.Encrypt(password);
+            if (user.Password != psw)
+            {
+                return BadRequest("密码错误");
+            }
+
+            //创建用户身份标识
+            var claims = new Claim[]
+            {
+                new Claim("userid", user.Id.ToString()),
+                new Claim("username", user.Name),
+                new Claim("avatar",user.Avatar??"")
+            };
+            //创建令牌
+            var jstoken = new JwtSecurityToken(
+                issuer: _jwtTokenOptions.Issuer,
+                audience: _jwtTokenOptions.Audience,
+                claims: claims,
+                notBefore: DateTime.Now,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: _jwtTokenOptions.Credentials);
+            return Ok(new JwtToken
+            {
+                token = new JwtSecurityTokenHandler().WriteToken(jstoken),
+                expiration = jstoken.ValidTo
+            });
         }
 
         /// <summary>
@@ -36,12 +97,13 @@ namespace UUMS.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("Info")]
-        public ActionResult GetUserInfo()
+        public ActionResult<UserDto> GetUserInfo()
         {
             var claimsIdentity = this.User.Identity as ClaimsIdentity;
-            var userid = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;
-            var claim = User.Claims;
-            return Ok();
+            var userid = claimsIdentity.FindFirst("userid")?.Value;
+            var user = _userRepository.Find(new Guid(userid));
+            var dto = user.Map<User, UserDto>();
+            return Ok(dto);
         }
 
         /// <summary>
@@ -58,14 +120,14 @@ namespace UUMS.API.Controllers
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public ActionResult<PaginatedItems<UserDto>> GetPage(int pageIndex, int pageSize, string name)
         {
-            int total = _userRepository.All().Count();
+            Expression<Func<User, bool>> predicate = o => string.IsNullOrEmpty(name) || o.Name.Contains(name);
+            int total = _userRepository.Query(predicate).Count();
             var users = _userRepository
-                .Page(pageSize, pageIndex, o => string.IsNullOrEmpty(name) || o.Name.Contains(name), o => o.Account)
+                .Page(pageSize, pageIndex, predicate, o => o.Account)
                 .ToList();
             var dtos = users.Map<User, UserDto>();
             return new PaginatedItems<UserDto>(pageIndex, pageSize, total, dtos);
         }
-
 
         /// <summary>
         /// 创建用户
@@ -124,11 +186,34 @@ namespace UUMS.API.Controllers
             {
                 return BadRequest("参数错误，account已被使用");
             }
+            user.Name = param.Name;
+            user.Account = param.Account;
+            user.Sex = param.Sex;
+            user.Mobile = param.Mobile;
+            user.Mail = param.Mail;
+            _unitOfWork.ModifyAndCommit(user);
 
-            var entity = param.Map<UserModel, User>();
-            entity.Id = id;
-            entity.CreatedAt = user.CreatedAt;
-            _unitOfWork.ModifyAndCommit(entity);
+            return Ok();
+        }
+
+        /// <summary>
+        /// 删除用户
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public ActionResult Delete(Guid id)
+        {
+            if (!_userRepository.Exists(id))
+            {
+                return BadRequest("参数错误，id不存在");
+            }
+            var user = _userRepository.Find(id);
+            _unitOfWork.Remove(user);
+            _unitOfWork.Commit();
             return Ok();
         }
 
@@ -161,6 +246,34 @@ namespace UUMS.API.Controllers
             var user = _userRepository.Find(id);
             user.Password = MD5.Encrypt(param.Password);
             _unitOfWork.ModifyAndCommit(user);
+            return Ok();
+        }
+
+        /// <summary>
+        /// 用户添加角色
+        /// </summary>
+        /// <param name="id">用户id</param>
+        /// <returns></returns>
+        [HttpPut("{id}/Roles")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public ActionResult AddRoles(Guid id, [FromBody] List<Guid> roleids)
+        {
+            if (!_userRepository.Exists(id))
+            {
+                return BadRequest("参数错误，id不存在");
+            }
+            var roles = roleids.Select(o => new Role
+            {
+                Id = o
+            }).ToList();
+
+            //_roleRepository.Query(o => roleids.Contains(o.Id)).ToList();
+            var user = _userRepository.Find(id);
+            user.Roles = roles;
+            _unitOfWork.Modify(user);
+            _unitOfWork.Commit();
             return Ok();
         }
     }

@@ -29,6 +29,31 @@
             排序号
             </summary>
         </member>
+        <member name="T:UUMS.Application.Dtos.RoleDto">
+            <summary>
+            角色
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.RoleDto.Id">
+            <summary>
+            id
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.RoleDto.Name">
+            <summary>
+            角色名称
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.RoleDto.Description">
+            <summary>
+            角色描述
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.RoleDto.Enabled">
+            <summary>
+            是否启用
+            </summary>
+        </member>
         <member name="T:UUMS.Application.Dtos.UserDto">
             <summary>
             用户

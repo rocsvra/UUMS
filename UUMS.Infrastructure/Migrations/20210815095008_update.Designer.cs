@@ -10,8 +10,8 @@ using UUMS.Infrastructure;
 namespace UUMS.Infrastructure.Migrations
 {
     [DbContext(typeof(UumsDbContext))]
-    [Migration("20210703032626_user")]
-    partial class user
+    [Migration("20210815095008_update")]
+    partial class update
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -215,7 +215,7 @@ namespace UUMS.Infrastructure.Migrations
                     b.Property<bool>("Enabled")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("LastUpdatedAt")
+                    b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastUpdatedBy")
@@ -242,6 +242,9 @@ namespace UUMS.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(30)");
 
+                    b.Property<string>("Avatar")
+                        .HasColumnType("varchar(150)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -257,7 +260,7 @@ namespace UUMS.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
-                    b.Property<Guid>("OrgId")
+                    b.Property<Guid?>("OrgId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Password")
@@ -268,6 +271,8 @@ namespace UUMS.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasAlternateKey("Account");
 
                     b.HasIndex("OrgId");
 
@@ -330,9 +335,7 @@ namespace UUMS.Infrastructure.Migrations
                 {
                     b.HasOne("UUMS.Domain.DO.Org", "Org")
                         .WithMany("Users")
-                        .HasForeignKey("OrgId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OrgId");
 
                     b.Navigation("Org");
                 });

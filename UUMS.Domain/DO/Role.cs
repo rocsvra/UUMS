@@ -24,7 +24,7 @@ namespace UUMS.Domain.DO
         /// 是否启用
         /// </summary>
         public bool Enabled { get; set; }
-        /// <summary>
+        /// <summary>   
         /// 创建人
         /// </summary>
         public string CreatedBy { get; set; }
@@ -39,15 +39,15 @@ namespace UUMS.Domain.DO
         /// <summary>
         /// 更新时间
         /// </summary>
-        public DateTime LastUpdatedAt { get; set; }
+        public DateTime? LastUpdatedAt { get; set; }
 
         /// <summary>
         /// 关联菜单
         /// </summary>
-        public ICollection<Menu> Menus { get; set; }        
+        public List<Menu> Menus { get; set; }
         /// <summary>
         /// 关联用户
         /// </summary>
-        public ICollection<User> Users { get; set; }
+        public List<User> Users { get; set; }
     }
 }

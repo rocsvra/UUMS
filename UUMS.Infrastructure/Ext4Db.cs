@@ -24,6 +24,7 @@ namespace UUMS.Infrastructure
             //注册仓储
             services.AddTransient<IClientRepository, ClientRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IRoleRepository, RoleRepository>();
         }
     }
 }

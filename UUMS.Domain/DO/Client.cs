@@ -28,6 +28,6 @@ namespace UUMS.Domain.DO
         /// <summary>
         /// 菜单
         /// </summary>
-        public ICollection<Menu> Menus { get; set; }
+        public List<Menu> Menus { get; set; }
     }
 }

@@ -52,6 +52,6 @@ namespace UUMS.Domain.DO
         /// <summary>
         /// 用户角色
         /// </summary>
-        public ICollection<Role> Roles { get; set; }
+        public List<Role> Roles { get; set; }
     }
 }
