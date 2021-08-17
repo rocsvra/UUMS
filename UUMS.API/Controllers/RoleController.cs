@@ -1,12 +1,10 @@
 ﻿using AdunTech.AutoMapperExtension;
 using AdunTech.Co2Net.Models;
 using AdunTech.CommonDomain;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Claims;
@@ -16,19 +14,17 @@ using UUMS.Domain.IRepositories;
 
 namespace UUMS.API.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [EnableCors("policy")]
-    [Route("api/[controller]")]
-    [ApiController]
-    public class RoleController : ControllerBase
+    public class RoleController : UumsControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRoleRepository _roleRepository;
+        private readonly IMenuRepository _menuRepository;
 
-        public RoleController(IUnitOfWork unitOfWork, IRoleRepository roleRepository)
+        public RoleController(IUnitOfWork unitOfWork, IRoleRepository roleRepository, IMenuRepository menuRepository)
         {
             _unitOfWork = unitOfWork;
             _roleRepository = roleRepository;
+            _menuRepository = menuRepository;
         }
 
         /// <summary>
@@ -133,6 +129,29 @@ namespace UUMS.API.Controllers
             var roles = _roleRepository.Find(id);
             _unitOfWork.Remove(roles);
             _unitOfWork.Commit();
+            return Ok();
+        }
+
+        /// <summary>
+        /// 角色关联菜单
+        /// </summary>
+        /// <param name="id">角色id</param>
+        /// <param name="menuids">菜单id列表</param>
+        /// <returns></returns>
+        [HttpPut("{id}/Roles")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public ActionResult PutRoles(Guid id, [FromBody] List<Guid> menuids)
+        {
+            if (!_roleRepository.Exists(id))
+            {
+                return BadRequest("参数错误，id不存在");
+            }
+            var role = _roleRepository.Find(id);
+            var menus = _menuRepository.Query(o => menuids.Contains(o.Id)).ToList();
+            role.Menus = menus;
+            _unitOfWork.ModifyIncludeRelationAndCommit(role);
             return Ok();
         }
     }

@@ -1,17 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace UUMS.Domain.DO
+namespace UUMS.Application.Dtos
 {
     /// <summary>
     /// 菜单
     /// </summary>
-    public class Menu
+    public class MenuDto
     {
         /// <summary>
         /// id
         /// </summary>
         public Guid Id { get; set; }
+        /// <summary>
+        /// 客户端
+        /// </summary>
+        public Guid ClientId { get; set; }
         /// <summary>
         /// 父Id
         /// </summary>
@@ -56,35 +59,5 @@ namespace UUMS.Domain.DO
         /// 排序号
         /// </summary>
         public int SortNo { get; set; }
-        /// <summary>
-        /// 创建人
-        /// </summary>
-        public string CreatedBy { get; set; }
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public DateTime CreatedAt { get; set; }
-        /// <summary>
-        /// 最后更新用户
-        /// </summary>
-        public string LastUpdatedBy { get; set; }
-        /// <summary>
-        /// 更新时间
-        /// </summary>
-        public DateTime? LastUpdatedAt { get; set; }
-
-        /// <summary>
-        /// 关联角色
-        /// </summary>
-        public ICollection<Role> Roles { get; set; }
-
-        /// <summary>
-        /// 客户端ID
-        /// </summary>
-        public Guid ClientId { get; set; }
-        /// <summary>
-        /// 所属客户端
-        /// </summary>
-        public Client Client { get; set; }
     }
 }

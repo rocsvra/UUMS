@@ -23,7 +23,8 @@ namespace UUMS.Infrastructure.EntityConfigurations
                 .HasMaxLength(50);
 
             builder.HasOne(o => o.Client)
-                .WithMany(o => o.Menus);
+                .WithMany(o => o.Menus)
+                .HasForeignKey(o => o.ClientId);
         }
     }
 }

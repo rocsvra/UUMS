@@ -29,6 +29,76 @@
             排序号
             </summary>
         </member>
+        <member name="T:UUMS.Application.Dtos.MenuDto">
+            <summary>
+            菜单
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.MenuDto.Id">
+            <summary>
+            id
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.MenuDto.ClientId">
+            <summary>
+            客户端
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.MenuDto.ParentId">
+            <summary>
+            父Id
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.MenuDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.MenuDto.AlwaysShow">
+            <summary>
+            总是显示（顶层）
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.MenuDto.Hidden">
+            <summary>
+            隐藏
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.MenuDto.Redirect">
+            <summary>
+            重定向
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.MenuDto.Path">
+            <summary>
+            路径
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.MenuDto.Component">
+            <summary>
+            组件
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.MenuDto.Title">
+            <summary>
+            菜单显示标题
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.MenuDto.Icon">
+            <summary>
+            菜单图标
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.MenuDto.NoCache">
+            <summary>
+            缓存
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Dtos.MenuDto.SortNo">
+            <summary>
+            排序号
+            </summary>
+        </member>
         <member name="T:UUMS.Application.Dtos.RoleDto">
             <summary>
             角色

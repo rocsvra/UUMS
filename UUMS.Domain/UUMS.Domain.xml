@@ -154,6 +154,11 @@
             关联角色
             </summary>
         </member>
+        <member name="P:UUMS.Domain.DO.Menu.ClientId">
+            <summary>
+            客户端ID
+            </summary>
+        </member>
         <member name="P:UUMS.Domain.DO.Menu.Client">
             <summary>
             所属客户端

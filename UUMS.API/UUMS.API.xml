@@ -42,6 +42,26 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="T:UUMS.API.Controllers.MenuController">
+            <summary>
+            菜单
+            </summary>
+        </member>
+        <member name="M:UUMS.API.Controllers.MenuController.GetPage(System.Guid,System.String)">
+            <summary>
+             获取客户端菜单列表
+            </summary>
+            <param name="clientId"></param>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UUMS.API.Controllers.MenuController.Post(UUMS.Application.Dtos.MenuDto)">
+            <summary>
+            创建菜单
+            </summary>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
         <member name="M:UUMS.API.Controllers.RoleController.GetPage(System.Int32,System.Int32,System.String)">
             <summary>
              获取角色(分页)
