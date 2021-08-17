@@ -87,6 +87,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:UUMS.API.Controllers.UserController.Get(System.Guid)">
+            <summary>
+             获取用户信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:UUMS.API.Controllers.UserController.GetPage(System.Int32,System.Int32,System.String)">
             <summary>
              获取用户(分页)
@@ -126,12 +133,22 @@
             <param name="param"></param>
             <returns></returns>
         </member>
-        <member name="M:UUMS.API.Controllers.UserController.AddRoles(System.Guid,System.Collections.Generic.List{System.Guid})">
+        <member name="M:UUMS.API.Controllers.UserController.PutRoles(System.Guid,System.Collections.Generic.List{System.Guid})">
             <summary>
-            用户添加角色
+            用户关联角色
             </summary>
             <param name="id">用户id</param>
             <returns></returns>
+        </member>
+        <member name="P:UUMS.API.Controllers.UumsControllerBase.LoginUserId">
+            <summary>
+            登录用户ID
+            </summary>
+        </member>
+        <member name="P:UUMS.API.Controllers.UumsControllerBase.LoginUserName">
+            <summary>
+            登录用户名
+            </summary>
         </member>
         <member name="P:UUMS.API.ClientModel.Name">
             <summary>

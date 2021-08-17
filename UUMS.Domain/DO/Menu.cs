@@ -78,10 +78,6 @@ namespace UUMS.Domain.DO
         /// </summary>
         public ICollection<Role> Roles { get; set; }
         /// <summary>
-        /// 客户端Id
-        /// </summary>
-        public Guid ClientId { get; set; }
-        /// <summary>
         /// 所属客户端
         /// </summary>
         public Client Client { get; set; }

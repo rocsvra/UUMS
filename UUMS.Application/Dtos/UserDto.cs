@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace UUMS.Application.Dtos
 {
@@ -35,5 +36,9 @@ namespace UUMS.Application.Dtos
         /// 创建时间
         /// </summary>
         public DateTime CreatedAt { get; set; }
+        /// <summary>
+        /// 用户角色
+        /// </summary>
+        public List<RoleDto> RelatedRoles { get; set; }
     }
 }

@@ -17,10 +17,5 @@ namespace UUMS.Infrastructure.Repositories
                 .Include(itm => itm.Roles)
                 .FirstOrDefault(itm => itm.Id == (Guid)id);
         }
-
-        public void ModifyRoles(User user)
-        {
-
-        }
     }
 }

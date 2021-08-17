@@ -94,5 +94,10 @@
             创建时间
             </summary>
         </member>
+        <member name="P:UUMS.Application.Dtos.UserDto.RelatedRoles">
+            <summary>
+            用户角色
+            </summary>
+        </member>
     </members>
 </doc>

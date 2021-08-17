@@ -2,7 +2,6 @@
 using AdunTech.Co2Net.Models;
 using AdunTech.CommonDomain;
 using AdunTech.ExceptionDetail;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,10 +12,7 @@ using UUMS.Domain.IRepositories;
 
 namespace UUMS.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [EnableCors("UUMS")]
-    public class ClientController : ControllerBase
+    public class ClientController : UumsControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IClientRepository _clientRepository;

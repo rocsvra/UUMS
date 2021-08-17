@@ -2,9 +2,7 @@
 using AdunTech.Co2Net.Models;
 using AdunTech.CommonDomain;
 using AdunTech.Cryptography;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -17,29 +15,29 @@ using System.Security.Claims;
 using UUMS.Application.Dtos;
 using UUMS.Domain.DO;
 using UUMS.Domain.IRepositories;
+using UUMS.Infrastructure;
 
 namespace UUMS.API.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [Route("api/[controller]")]
-    [ApiController]
-    [EnableCors("policy")]
-    public class UserController : ControllerBase
+    public class UserController : UumsControllerBase
     {
         private readonly JwtTokenOptions _jwtTokenOptions;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;
+        private readonly UumsDbContext _uumsDbContext;
 
         public UserController(IUnitOfWork unitOfWork
             , IOptionsMonitor<JwtTokenOptions> jwtTokenOptions
             , IUserRepository userRepository
-            , IRoleRepository roleRepository)
+            , IRoleRepository roleRepository
+            , UumsDbContext uumsDbContext)
         {
             _jwtTokenOptions = jwtTokenOptions.CurrentValue;
             _unitOfWork = unitOfWork;
             _userRepository = userRepository;
             _roleRepository = roleRepository;
+            _uumsDbContext = uumsDbContext;
         }
 
         /// <summary>
@@ -104,6 +102,24 @@ namespace UUMS.API.Controllers
             var user = _userRepository.Find(new Guid(userid));
             var dto = user.Map<User, UserDto>();
             return Ok(dto);
+        }
+
+        /// <summary>
+        ///  获取用户信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public ActionResult<UserDto> Get(Guid id)
+        {
+            var user = _userRepository.Find(id);
+            var dto = user.Map<User, UserDto>();
+            dto.RelatedRoles = user.Roles?.Map<Role, RoleDto>().ToList();
+            return dto;
         }
 
         /// <summary>
@@ -250,7 +266,7 @@ namespace UUMS.API.Controllers
         }
 
         /// <summary>
-        /// 用户添加角色
+        /// 用户关联角色
         /// </summary>
         /// <param name="id">用户id</param>
         /// <returns></returns>
@@ -258,22 +274,16 @@ namespace UUMS.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public ActionResult AddRoles(Guid id, [FromBody] List<Guid> roleids)
+        public ActionResult PutRoles(Guid id, [FromBody] List<Guid> roleids)
         {
             if (!_userRepository.Exists(id))
             {
                 return BadRequest("参数错误，id不存在");
             }
-            var roles = roleids.Select(o => new Role
-            {
-                Id = o
-            }).ToList();
-
-            //_roleRepository.Query(o => roleids.Contains(o.Id)).ToList();
+            var roles = _roleRepository.Query(o => roleids.Contains(o.Id)).ToList();
             var user = _userRepository.Find(id);
             user.Roles = roles;
-            _unitOfWork.Modify(user);
-            _unitOfWork.Commit();
+            _unitOfWork.ModifyIncludeRelationAndCommit(user);
             return Ok();
         }
     }
