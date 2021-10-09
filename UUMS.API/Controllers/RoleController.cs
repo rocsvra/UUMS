@@ -59,7 +59,7 @@ namespace UUMS.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public ActionResult<RoleDto> Post(RoleModel param)
+        public ActionResult<RoleDto> Post(RoleVO param)
         {
             if (string.IsNullOrWhiteSpace(param.Name))
             {
@@ -68,7 +68,7 @@ namespace UUMS.API.Controllers
             var claimsIdentity = this.User.Identity as ClaimsIdentity;
             var username = claimsIdentity.FindFirst("username")?.Value;
 
-            RoleDto dto = param.Map<RoleModel, RoleDto>();
+            RoleDto dto = param.Map<RoleVO, RoleDto>();
             dto.Id = Guid.NewGuid();
             var entity = dto.Map<RoleDto, Role>();
             entity.CreatedAt = DateTime.Now;
@@ -87,7 +87,7 @@ namespace UUMS.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public ActionResult Put(Guid id, [FromBody] RoleModel param)
+        public ActionResult Put(Guid id, [FromBody] RoleVO param)
         {
             if (string.IsNullOrWhiteSpace(param.Name))
             {

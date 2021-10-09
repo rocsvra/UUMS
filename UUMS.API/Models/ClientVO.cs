@@ -1,18 +1,18 @@
 ﻿namespace UUMS.API
 {
-    public class RoleModel
+    public class ClientVO
     {
         /// <summary>
-        /// 角色名称
+        /// 客户端名称
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// 角色描述
+        /// 是否拥有菜单
         /// </summary>
-        public string Description { get; set; }
+        public bool HasMenu { get; set; }
         /// <summary>
-        /// 是否启用
+        /// 排序号
         /// </summary>
-        public bool Enabled { get; set; }
+        public int SortNo { get; set; }
     }
 }

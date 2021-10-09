@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Security.Claims;
 
 namespace UUMS.API.Controllers
@@ -15,12 +16,13 @@ namespace UUMS.API.Controllers
         /// <summary>
         /// 登录用户ID
         /// </summary>
-        protected string LoginUserId
+        protected Guid LoginUserId
         {
             get
             {
                 var claimsIdentity = this.User.Identity as ClaimsIdentity;
-                return claimsIdentity.FindFirst("userid")?.Value;
+                string userid = claimsIdentity.FindFirst("userid")?.Value;
+                return string.IsNullOrEmpty(userid) ? default : new Guid(userid);
             }
         }
 

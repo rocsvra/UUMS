@@ -3,7 +3,7 @@
     /// <summary>
     /// 用户
     /// </summary>
-    public class UserModel
+    public class UserVO
     {
         /// <summary>
         /// 用户姓名
@@ -27,7 +27,7 @@
         public string Mail { get; set; }
     }
 
-    public class UserPswModel
+    public class UserPswVO
     {
         /// <summary>
         /// 密码

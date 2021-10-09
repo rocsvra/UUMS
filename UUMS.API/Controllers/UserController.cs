@@ -12,6 +12,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Claims;
+using UUMS.API.Util;
 using UUMS.Application.Dtos;
 using UUMS.Domain.DO;
 using UUMS.Domain.IRepositories;
@@ -154,7 +155,7 @@ namespace UUMS.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public ActionResult<UserDto> Post(UserModel param)
+        public ActionResult<UserDto> Post(UserVO param)
         {
             if (string.IsNullOrWhiteSpace(param.Name)
                 || string.IsNullOrWhiteSpace(param.Account)
@@ -163,7 +164,7 @@ namespace UUMS.API.Controllers
                 return BadRequest("参数错误");
             }
 
-            var dto = param.Map<UserModel, UserDto>();
+            var dto = param.Map<UserVO, UserDto>();
             dto.Id = Guid.NewGuid();
             dto.CreatedAt = DateTime.Now;
             var entity = dto.Map<UserDto, User>();
@@ -182,7 +183,7 @@ namespace UUMS.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public ActionResult Put(Guid id, [FromBody] UserModel param)
+        public ActionResult Put(Guid id, [FromBody] UserVO param)
         {
             if (string.IsNullOrWhiteSpace(param.Name)
                 || string.IsNullOrWhiteSpace(param.Account)
@@ -243,7 +244,7 @@ namespace UUMS.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public ActionResult PutPsw(Guid id, [FromBody] UserPswModel param)
+        public ActionResult PutPsw(Guid id, [FromBody] UserPswVO param)
         {
             if (string.IsNullOrWhiteSpace(param.Password)
                 || string.IsNullOrWhiteSpace(param.RepeatPassword)
@@ -285,6 +286,36 @@ namespace UUMS.API.Controllers
             user.Roles = roles;
             _unitOfWork.ModifyIncludeRelationAndCommit(user);
             return Ok();
+        }
+
+        /// <summary>
+        ///  获取用户菜单列表
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <returns></returns>
+        [HttpGet("ElementuiMenu")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public ActionResult<List<ElementMenuVO>> GetElementList(Guid clientId)
+        {
+            List<Menu> menus = new List<Menu>();
+            var user = _userRepository.Find(LoginUserId);
+            var roleIds = user.Roles?.Select(o => o.Id);
+            if (roleIds != null)
+            {
+                var roles = _roleRepository.Query(o => roleIds.Contains(o.Id)).ToList();
+                foreach (var role in roles)
+                {
+                    if (role.Menus != null)
+                    {
+                        menus.AddRange(role.Menus);
+                    }
+                }
+            }
+            menus = menus.Distinct().Where(o => o.ClientId == clientId).ToList();
+            return menus.ToElementMenu();
         }
     }
 }
