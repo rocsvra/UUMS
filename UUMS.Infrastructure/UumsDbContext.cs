@@ -5,7 +5,7 @@ using UUMS.Infrastructure.EntityConfigurations;
 
 namespace UUMS.Infrastructure
 {
-    public class UumsDbContext : DbContext, IDbContext
+    public class UumsDbContext : DbContext, IEfDbContext
     {
         public UumsDbContext() { }
 

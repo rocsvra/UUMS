@@ -5,19 +5,18 @@ using AdunTech.ExceptionDetail;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Linq;
 using UUMS.Application.Dtos;
+using UUMS.Application.Specifications;
 using UUMS.Domain.DO;
-using UUMS.Domain.IRepositories;
 
 namespace UUMS.API.Controllers
 {
     public class ClientController : UumsControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IClientRepository _clientRepository;
+        private readonly IRepository<Client> _clientRepository;
 
-        public ClientController(IClientRepository clientRepository, IUnitOfWork unitOfWork)
+        public ClientController(IRepository<Client> clientRepository, IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _clientRepository = clientRepository;
@@ -37,10 +36,10 @@ namespace UUMS.API.Controllers
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public ActionResult<PaginatedItems<ClientDto>> GetPage(int pageIndex, int pageSize, string name)
         {
-            int total = _clientRepository.All().Count();
-            var clients = _clientRepository
-                .Page(pageSize, pageIndex, o => string.IsNullOrEmpty(name) || o.Name.Contains(name), o => o.SortNo)
-                .ToList();
+            var spec = new ClientFilterSpecification(name);
+            int total = _clientRepository.Count(spec);
+            var specPaginated = new ClientFilterSpecification(pageIndex, pageSize, name);
+            var clients = _clientRepository.Query(specPaginated);
             var dtos = clients.Map<Client, ClientDto>();
             return new PaginatedItems<ClientDto>(pageIndex, pageSize, total, dtos);
         }
@@ -82,7 +81,8 @@ namespace UUMS.API.Controllers
             var dto = param.Map<ClientVO, ClientDto>();
             dto.Id = Guid.NewGuid();
             var entity = dto.Map<ClientDto, Client>();
-            _unitOfWork.AddAndCommit(entity);
+            _unitOfWork.Add(entity);
+            _unitOfWork.Commit();
             return dto;
         }
 
@@ -102,14 +102,15 @@ namespace UUMS.API.Controllers
             {
                 throw new BadRequestException(HttpContext.TraceIdentifier, "ParameterError");
             }
-            if (!_clientRepository.Exists(id))
+            if (_clientRepository.Find(id) == null)
             {
                 throw new BadRequestException(HttpContext.TraceIdentifier, "ParameterError", "id不存在");
             }
 
             var entity = param.Map<ClientVO, Client>();
             entity.Id = id;
-            _unitOfWork.ModifyAndCommit(entity);
+            _unitOfWork.Modify(entity);
+            _unitOfWork.Commit();
             return Ok();
         }
 

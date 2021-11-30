@@ -20,14 +20,14 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:UUMS.API.Controllers.ClientController.Post(UUMS.API.ClientModel)">
+        <member name="M:UUMS.API.Controllers.ClientController.Post(UUMS.API.ClientVO)">
             <summary>
             添加客户端
             </summary>
             <param name="param"></param>
             <returns></returns>
         </member>
-        <member name="M:UUMS.API.Controllers.ClientController.Put(System.Guid,UUMS.API.ClientModel)">
+        <member name="M:UUMS.API.Controllers.ClientController.Put(System.Guid,UUMS.API.ClientVO)">
             <summary>
             修改客户端
             </summary>
@@ -79,14 +79,14 @@
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:UUMS.API.Controllers.RoleController.Post(UUMS.API.RoleModel)">
+        <member name="M:UUMS.API.Controllers.RoleController.Post(UUMS.API.RoleVO)">
             <summary>
             创建角色
             </summary>
             <param name="param"></param>
             <returns></returns>
         </member>
-        <member name="M:UUMS.API.Controllers.RoleController.Put(System.Guid,UUMS.API.RoleModel)">
+        <member name="M:UUMS.API.Controllers.RoleController.Put(System.Guid,UUMS.API.RoleVO)">
             <summary>
             修改角色
             </summary>
@@ -139,14 +139,14 @@
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:UUMS.API.Controllers.UserController.Post(UUMS.API.UserModel)">
+        <member name="M:UUMS.API.Controllers.UserController.Post(UUMS.API.UserVO)">
             <summary>
             创建用户
             </summary>
             <param name="param"></param>
             <returns></returns>
         </member>
-        <member name="M:UUMS.API.Controllers.UserController.Put(System.Guid,UUMS.API.UserModel)">
+        <member name="M:UUMS.API.Controllers.UserController.Put(System.Guid,UUMS.API.UserVO)">
             <summary>
             修改用户
             </summary>
@@ -161,7 +161,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:UUMS.API.Controllers.UserController.PutPsw(System.Guid,UUMS.API.UserPswModel)">
+        <member name="M:UUMS.API.Controllers.UserController.PutPsw(System.Guid,UUMS.API.UserPswVO)">
             <summary>
             修改用户密码
             </summary>
@@ -176,6 +176,13 @@
             <param name="id">用户id</param>
             <returns></returns>
         </member>
+        <member name="M:UUMS.API.Controllers.UserController.GetElementList(System.Guid)">
+            <summary>
+             获取用户菜单列表
+            </summary>
+            <param name="clientId"></param>
+            <returns></returns>
+        </member>
         <member name="P:UUMS.API.Controllers.UumsControllerBase.LoginUserId">
             <summary>
             登录用户ID
@@ -186,19 +193,89 @@
             登录用户名
             </summary>
         </member>
-        <member name="P:UUMS.API.ClientModel.Name">
+        <member name="P:UUMS.API.ClientVO.Name">
             <summary>
             客户端名称
             </summary>
         </member>
-        <member name="P:UUMS.API.ClientModel.HasMenu">
+        <member name="P:UUMS.API.ClientVO.HasMenu">
             <summary>
             是否拥有菜单
             </summary>
         </member>
-        <member name="P:UUMS.API.ClientModel.SortNo">
+        <member name="P:UUMS.API.ClientVO.SortNo">
             <summary>
             排序号
+            </summary>
+        </member>
+        <member name="T:UUMS.API.ElementMenuVO">
+            <summary>
+            ElementUI菜单结构
+            </summary>
+        </member>
+        <member name="P:UUMS.API.ElementMenuVO.id">
+            <summary>
+            菜单id
+            </summary>
+        </member>
+        <member name="P:UUMS.API.ElementMenuVO.name">
+            <summary>
+            菜单名称
+            </summary>
+        </member>
+        <member name="P:UUMS.API.ElementMenuVO.alwaysShow">
+            <summary>
+            总是显示（顶层）
+            </summary>
+        </member>
+        <member name="P:UUMS.API.ElementMenuVO.hidden">
+            <summary>
+            隐藏
+            </summary>
+        </member>
+        <member name="P:UUMS.API.ElementMenuVO.redirect">
+            <summary>
+            重定向
+            </summary>
+        </member>
+        <member name="P:UUMS.API.ElementMenuVO.path">
+            <summary>
+            路径
+            </summary>
+        </member>
+        <member name="P:UUMS.API.ElementMenuVO.component">
+            <summary>
+            组件
+            </summary>
+        </member>
+        <member name="P:UUMS.API.ElementMenuVO.meta">
+            <summary>
+            菜单元数据
+            </summary>
+        </member>
+        <member name="P:UUMS.API.ElementMenuVO.children">
+            <summary>
+            子菜单
+            </summary>
+        </member>
+        <member name="T:UUMS.API.ElementMenuMeta">
+            <summary>
+            菜单元数据
+            </summary>
+        </member>
+        <member name="P:UUMS.API.ElementMenuMeta.title">
+            <summary>
+            菜单名称
+            </summary>
+        </member>
+        <member name="P:UUMS.API.ElementMenuMeta.icon">
+            <summary>
+            图标
+            </summary>
+        </member>
+        <member name="P:UUMS.API.ElementMenuMeta.noCache">
+            <summary>
+            缓存
             </summary>
         </member>
         <member name="T:UUMS.API.JwtToken">
@@ -216,57 +293,57 @@
             过期时间
             </summary>
         </member>
-        <member name="P:UUMS.API.RoleModel.Name">
+        <member name="P:UUMS.API.RoleVO.Name">
             <summary>
             角色名称
             </summary>
         </member>
-        <member name="P:UUMS.API.RoleModel.Description">
+        <member name="P:UUMS.API.RoleVO.Description">
             <summary>
             角色描述
             </summary>
         </member>
-        <member name="P:UUMS.API.RoleModel.Enabled">
+        <member name="P:UUMS.API.RoleVO.Enabled">
             <summary>
             是否启用
             </summary>
         </member>
-        <member name="T:UUMS.API.UserModel">
+        <member name="T:UUMS.API.UserVO">
             <summary>
             用户
             </summary>
         </member>
-        <member name="P:UUMS.API.UserModel.Name">
+        <member name="P:UUMS.API.UserVO.Name">
             <summary>
             用户姓名
             </summary>
         </member>
-        <member name="P:UUMS.API.UserModel.Account">
+        <member name="P:UUMS.API.UserVO.Account">
             <summary>
             账号/工号
             </summary>
         </member>
-        <member name="P:UUMS.API.UserModel.Sex">
+        <member name="P:UUMS.API.UserVO.Sex">
             <summary>
             性别
             </summary>
         </member>
-        <member name="P:UUMS.API.UserModel.Mobile">
+        <member name="P:UUMS.API.UserVO.Mobile">
             <summary>
             手机
             </summary>
         </member>
-        <member name="P:UUMS.API.UserModel.Mail">
+        <member name="P:UUMS.API.UserVO.Mail">
             <summary>
             邮箱
             </summary>
         </member>
-        <member name="P:UUMS.API.UserPswModel.Password">
+        <member name="P:UUMS.API.UserPswVO.Password">
             <summary>
             密码
             </summary>
         </member>
-        <member name="P:UUMS.API.UserPswModel.RepeatPassword">
+        <member name="P:UUMS.API.UserPswVO.RepeatPassword">
             <summary>
             确认密码
             </summary>
@@ -295,6 +372,14 @@
             <summary>
             数字签名
             </summary>
+        </member>
+        <member name="M:UUMS.API.Util.Ext4ElementMenu.GetTreeChildren(System.Collections.Generic.IEnumerable{UUMS.Domain.DO.Menu},System.Nullable{System.Guid})">
+            <summary>
+            递归实现树
+            </summary>
+            <param name="items">所有数据</param>
+            <param name="parentId">子数据的父ID</param>
+            <returns></returns>
         </member>
     </members>
 </doc>

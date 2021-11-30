@@ -3,8 +3,6 @@ using AdunTech.CommonInfra;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using UUMS.Domain.IRepositories;
-using UUMS.Infrastructure.Repositories;
 
 namespace UUMS.Infrastructure
 {
@@ -18,13 +16,11 @@ namespace UUMS.Infrastructure
                 options.UseSqlServer(connectionString,
                 sql => sql.MigrationsAssembly(migrationsAssembly)),
                 ServiceLifetime.Scoped);
-            services.AddTransient<IDbContext, UumsDbContext>();
+            services.AddScoped<IEfDbContext, UumsDbContext>();
             //注册工作单元
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, EfUnitOfWork>();
             //注册仓储
-            services.AddTransient<IClientRepository, ClientRepository>();
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IRoleRepository, RoleRepository>();
+            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
         }
     }
 }

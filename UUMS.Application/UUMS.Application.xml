@@ -169,5 +169,10 @@
             用户角色
             </summary>
         </member>
+        <member name="T:UUMS.Application.Specifications.ClientFilterSpecification">
+            <summary>
+            客户端分页过滤
+            </summary>
+        </member>
     </members>
 </doc>

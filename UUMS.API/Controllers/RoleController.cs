@@ -5,22 +5,20 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Security.Claims;
 using UUMS.Application.Dtos;
+using UUMS.Application.Specifications;
 using UUMS.Domain.DO;
-using UUMS.Domain.IRepositories;
 
 namespace UUMS.API.Controllers
 {
     public class RoleController : UumsControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IRoleRepository _roleRepository;
-        private readonly IMenuRepository _menuRepository;
+        private readonly IRepository<Role> _roleRepository;
+        private readonly IRepository<Menu> _menuRepository;
 
-        public RoleController(IUnitOfWork unitOfWork, IRoleRepository roleRepository, IMenuRepository menuRepository)
+        public RoleController(IUnitOfWork unitOfWork, IRepository<Role> roleRepository, IRepository<Menu> menuRepository)
         {
             _unitOfWork = unitOfWork;
             _roleRepository = roleRepository;
@@ -41,11 +39,10 @@ namespace UUMS.API.Controllers
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public ActionResult<PaginatedItems<RoleDto>> GetPage(int pageIndex, int pageSize, string name)
         {
-            Expression<Func<Role, bool>> predicate = o => string.IsNullOrEmpty(name) || o.Name.Contains(name);
-            int total = _roleRepository.Query(predicate).Count();
-            var roles = _roleRepository
-                .Page(pageSize, pageIndex, predicate, o => o.Name)
-                .ToList();
+            var spec = new RoleFilterSpecification(name);
+            int total = _roleRepository.Count(spec);
+            var specPaginated = new RoleFilterSpecification(pageIndex, pageSize, name);
+            var roles = _roleRepository.Query(specPaginated);
             var dtos = roles.Map<Role, RoleDto>();
             return new PaginatedItems<RoleDto>(pageIndex, pageSize, total, dtos);
         }
@@ -73,7 +70,8 @@ namespace UUMS.API.Controllers
             var entity = dto.Map<RoleDto, Role>();
             entity.CreatedAt = DateTime.Now;
             entity.CreatedBy = username;
-            _unitOfWork.AddAndCommit(entity);
+            _unitOfWork.Add(entity);
+            _unitOfWork.Commit();
             return dto;
         }
 
@@ -93,20 +91,21 @@ namespace UUMS.API.Controllers
             {
                 return BadRequest("参数错误");
             }
-            if (!_roleRepository.Exists(id))
+            var role = _roleRepository.Find(id);
+            if (role == null)
             {
                 return BadRequest("参数错误，id不存在");
             }
             var claimsIdentity = this.User.Identity as ClaimsIdentity;
             var username = claimsIdentity.FindFirst("username")?.Value;
 
-            var role = _roleRepository.Find(id);
             role.Name = param.Name;
             role.Description = param.Description;
             role.Enabled = param.Enabled;
             role.LastUpdatedBy = username;
             role.LastUpdatedAt = DateTime.Now;
-            _unitOfWork.ModifyAndCommit(role);
+            _unitOfWork.Modify(role);
+            _unitOfWork.Commit();
 
             return Ok();
         }
@@ -122,12 +121,12 @@ namespace UUMS.API.Controllers
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public ActionResult Delete(Guid id)
         {
-            if (!_roleRepository.Exists(id))
+            var role = _roleRepository.Find(id);
+            if (role == null)
             {
                 return BadRequest("参数错误，id不存在");
             }
-            var roles = _roleRepository.Find(id);
-            _unitOfWork.Remove(roles);
+            _unitOfWork.Remove(role);
             _unitOfWork.Commit();
             return Ok();
         }
@@ -144,14 +143,17 @@ namespace UUMS.API.Controllers
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public ActionResult PutRoles(Guid id, [FromBody] List<Guid> menuids)
         {
-            if (!_roleRepository.Exists(id))
+            var role = _roleRepository.Find(id);
+            if (role == null)
             {
                 return BadRequest("参数错误，id不存在");
             }
-            var role = _roleRepository.Find(id);
-            var menus = _menuRepository.Query(o => menuids.Contains(o.Id)).ToList();
+            var spec = new MenuFilterSpecification(menuids);
+            var menus = _menuRepository.Query(spec);
             role.Menus = menus;
-            _unitOfWork.ModifyIncludeRelationAndCommit(role);
+            _unitOfWork.Modify4Aggregate(role);
+            _unitOfWork.Commit();
+
             return Ok();
         }
     }

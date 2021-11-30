@@ -10,12 +10,11 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Security.Claims;
 using UUMS.API.Util;
 using UUMS.Application.Dtos;
+using UUMS.Application.Specifications;
 using UUMS.Domain.DO;
-using UUMS.Domain.IRepositories;
 using UUMS.Infrastructure;
 
 namespace UUMS.API.Controllers
@@ -24,14 +23,14 @@ namespace UUMS.API.Controllers
     {
         private readonly JwtTokenOptions _jwtTokenOptions;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserRepository _userRepository;
-        private readonly IRoleRepository _roleRepository;
+        private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Role> _roleRepository;
         private readonly UumsDbContext _uumsDbContext;
 
         public UserController(IUnitOfWork unitOfWork
             , IOptionsMonitor<JwtTokenOptions> jwtTokenOptions
-            , IUserRepository userRepository
-            , IRoleRepository roleRepository
+            , IRepository<User> userRepository
+            , IRepository<Role> roleRepository
             , UumsDbContext uumsDbContext)
         {
             _jwtTokenOptions = jwtTokenOptions.CurrentValue;
@@ -58,7 +57,8 @@ namespace UUMS.API.Controllers
             {
                 return BadRequest("参数不能为空");
             }
-            var user = _userRepository.FirstOrDefault(o => o.Account == username);
+            var spec = new UserFilterSpecification(username, password);
+            var user = _userRepository.FirstOrDefault(spec);
             if (user == null)
             {
                 return BadRequest("account不存在");
@@ -137,11 +137,10 @@ namespace UUMS.API.Controllers
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public ActionResult<PaginatedItems<UserDto>> GetPage(int pageIndex, int pageSize, string name)
         {
-            Expression<Func<User, bool>> predicate = o => string.IsNullOrEmpty(name) || o.Name.Contains(name);
-            int total = _userRepository.Query(predicate).Count();
-            var users = _userRepository
-                .Page(pageSize, pageIndex, predicate, o => o.Account)
-                .ToList();
+            var spec = new UserFilterSpecification(name);
+            int total = _userRepository.Count(spec);
+            var specPaginated = new UserFilterSpecification(pageIndex, pageSize, name);
+            var users = _userRepository.Query(specPaginated);
             var dtos = users.Map<User, UserDto>();
             return new PaginatedItems<UserDto>(pageIndex, pageSize, total, dtos);
         }
@@ -169,7 +168,8 @@ namespace UUMS.API.Controllers
             dto.CreatedAt = DateTime.Now;
             var entity = dto.Map<UserDto, User>();
             entity.Password = MD5.Encrypt(param.Account);
-            _unitOfWork.AddAndCommit(entity);
+            _unitOfWork.Add(entity);
+            _unitOfWork.Commit();
             return dto;
         }
 
@@ -192,13 +192,13 @@ namespace UUMS.API.Controllers
                 return BadRequest("参数错误");
             }
 
-            if (!_userRepository.Exists(id))
+            var user = _userRepository.Find(id);
+            if (user == null)
             {
                 return BadRequest("参数错误，id不存在");
             }
-
-            var user = _userRepository.Find(id);
-            var sameAccountUser = _userRepository.FirstOrDefault(o => o.Account == param.Account);
+            var spec = new UserFilterSpecification(param.Account, "");
+            var sameAccountUser = _userRepository.FirstOrDefault(spec);
             if (user.Account != param.Account && sameAccountUser != null)
             {
                 return BadRequest("参数错误，account已被使用");
@@ -208,7 +208,8 @@ namespace UUMS.API.Controllers
             user.Sex = param.Sex;
             user.Mobile = param.Mobile;
             user.Mail = param.Mail;
-            _unitOfWork.ModifyAndCommit(user);
+            _unitOfWork.Modify(user);
+            _unitOfWork.Commit();
 
             return Ok();
         }
@@ -224,11 +225,11 @@ namespace UUMS.API.Controllers
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public ActionResult Delete(Guid id)
         {
-            if (!_userRepository.Exists(id))
+            var user = _userRepository.Find(id);
+            if (user == null)
             {
                 return BadRequest("参数错误，id不存在");
             }
-            var user = _userRepository.Find(id);
             _unitOfWork.Remove(user);
             _unitOfWork.Commit();
             return Ok();
@@ -256,13 +257,14 @@ namespace UUMS.API.Controllers
             {
                 return BadRequest("密码至少6位");
             }
-            if (!_userRepository.Exists(id))
+            var user = _userRepository.Find(id);
+            if (user == null)
             {
                 return BadRequest("参数错误，id不存在");
             }
-            var user = _userRepository.Find(id);
             user.Password = MD5.Encrypt(param.Password);
-            _unitOfWork.ModifyAndCommit(user);
+            _unitOfWork.Modify(user);
+            _unitOfWork.Commit();
             return Ok();
         }
 
@@ -277,14 +279,16 @@ namespace UUMS.API.Controllers
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public ActionResult PutRoles(Guid id, [FromBody] List<Guid> roleids)
         {
-            if (!_userRepository.Exists(id))
+            var user = _userRepository.Find(id);
+            if (user == null)
             {
                 return BadRequest("参数错误，id不存在");
             }
-            var roles = _roleRepository.Query(o => roleids.Contains(o.Id)).ToList();
-            var user = _userRepository.Find(id);
+            var spec = new RoleFilterSpecification(roleids);
+            var roles = _roleRepository.Query(spec);
             user.Roles = roles;
-            _unitOfWork.ModifyIncludeRelationAndCommit(user);
+            _unitOfWork.Modify4Aggregate(user);
+            _unitOfWork.Commit();
             return Ok();
         }
 
@@ -302,10 +306,11 @@ namespace UUMS.API.Controllers
         {
             List<Menu> menus = new List<Menu>();
             var user = _userRepository.Find(LoginUserId);
-            var roleIds = user.Roles?.Select(o => o.Id);
+            var roleIds = user.Roles?.Select(o => o.Id).ToList();
             if (roleIds != null)
             {
-                var roles = _roleRepository.Query(o => roleIds.Contains(o.Id)).ToList();
+                var spec = new RoleFilterSpecification(roleIds);
+                var roles = _roleRepository.Query(spec);
                 foreach (var role in roles)
                 {
                     if (role.Menus != null)

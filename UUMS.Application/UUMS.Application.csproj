@@ -6,7 +6,12 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>.\UUMS.Application.xml</DocumentationFile>
+    <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\UUMS.Infrastructure\UUMS.Infrastructure.csproj" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Update="UUMS.Application.xml">

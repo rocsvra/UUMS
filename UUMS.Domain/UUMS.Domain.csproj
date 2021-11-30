@@ -10,13 +10,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AdunTech.CommonDomain" Version="1.0.0" />
+    <PackageReference Include="AdunTech.CommonDomain" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="UUMS.Domain.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="IRepositories\" />
   </ItemGroup>
 
 </Project>

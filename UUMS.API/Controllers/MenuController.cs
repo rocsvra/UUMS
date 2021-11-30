@@ -5,10 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using UUMS.Application.Dtos;
+using UUMS.Application.Specifications;
 using UUMS.Domain.DO;
-using UUMS.Domain.IRepositories;
 
 namespace UUMS.API.Controllers
 {
@@ -18,9 +17,9 @@ namespace UUMS.API.Controllers
     public class MenuController : UumsControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMenuRepository _menuRepository;
+        private readonly IRepository<Menu> _menuRepository;
 
-        public MenuController(IUnitOfWork unitOfWork, IMenuRepository menuRepository)
+        public MenuController(IUnitOfWork unitOfWork, IRepository<Menu> menuRepository)
         {
             _unitOfWork = unitOfWork;
             _menuRepository = menuRepository;
@@ -39,12 +38,8 @@ namespace UUMS.API.Controllers
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public ActionResult<List<MenuDto>> GetList(Guid clientId, string name)
         {
-            Expression<Func<Menu, bool>> predicate = o =>
-                (string.IsNullOrEmpty(name) || o.Name.Contains(name))
-                && o.ClientId == clientId;
-            var menus = _menuRepository
-                .Query(predicate, o => o.SortNo)
-                .ToList();
+            var spec = new MenuFilterSpecification(clientId, name);
+            var menus = _menuRepository.Query(spec);
             return menus.Map<Menu, MenuDto>().ToList();
         }
 
@@ -68,7 +63,8 @@ namespace UUMS.API.Controllers
             var entity = param.Map<MenuDto, Menu>();
             entity.CreatedAt = DateTime.Now;
             entity.CreatedBy = LoginUserName;
-            _unitOfWork.AddAndCommit(entity);
+            _unitOfWork.Add(entity);
+            _unitOfWork.Commit();
             return param;
         }
 
@@ -88,12 +84,12 @@ namespace UUMS.API.Controllers
             {
                 return BadRequest("参数错误");
             }
-            if (!_menuRepository.Exists(id))
+            var menu = _menuRepository.Find(id);
+            if (menu == null)
             {
                 return BadRequest("参数错误，id不存在");
             }
 
-            var menu = _menuRepository.Find(id);
             menu.ParentId = param.ParentId;
             menu.Name = param.Name;
             menu.AlwaysShow = param.AlwaysShow;
@@ -107,7 +103,8 @@ namespace UUMS.API.Controllers
             menu.SortNo = param.SortNo;
             menu.LastUpdatedBy = LoginUserName;
             menu.LastUpdatedAt = DateTime.Now;
-            _unitOfWork.ModifyAndCommit(menu);
+            _unitOfWork.Modify(menu);
+            _unitOfWork.Commit();
 
             return Ok();
         }
