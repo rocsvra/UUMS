@@ -57,7 +57,7 @@ namespace UUMS.API.Controllers
             {
                 return BadRequest("参数不能为空");
             }
-            var spec = new UserFilterSpecification(username, password);
+            var spec = new UserFilterSpecification(o => o.Account == username);
             var user = _userRepository.FirstOrDefault(spec);
             if (user == null)
             {
@@ -197,7 +197,7 @@ namespace UUMS.API.Controllers
             {
                 return BadRequest("参数错误，id不存在");
             }
-            var spec = new UserFilterSpecification(param.Account, "");
+            var spec = new UserFilterSpecification(o => o.Account == param.Account);
             var sameAccountUser = _userRepository.FirstOrDefault(spec);
             if (user.Account != param.Account && sameAccountUser != null)
             {

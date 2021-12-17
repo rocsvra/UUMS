@@ -1,5 +1,7 @@
 ﻿using Ardalis.Specification;
+using System;
 using System.Linq;
+using System.Linq.Expressions;
 using UUMS.Domain.DO;
 
 namespace UUMS.Application.Specifications
@@ -12,10 +14,10 @@ namespace UUMS.Application.Specifications
             Query.Where(o => string.IsNullOrEmpty(name) || o.Name.Contains(name));
         }
 
-        public UserFilterSpecification(string account, string password)
+        public UserFilterSpecification(Expression<Func<User, bool>> criteria)
             : base()
         {
-            Query.Where(o => o.Account == account);
+            Query.Where(criteria);
         }
 
         public UserFilterSpecification(int pageIndex, int pageSize, string name)
