@@ -126,7 +126,7 @@ namespace UUMS.API
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "UUMS.Application.xml"));
             });
         }
-
+        // 18957813252
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

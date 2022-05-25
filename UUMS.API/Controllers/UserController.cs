@@ -305,7 +305,7 @@ namespace UUMS.API.Controllers
         public ActionResult<List<ElementMenuVO>> GetElementList(Guid clientId)
         {
             List<Menu> menus = new List<Menu>();
-            var user = _userRepository.Find(LoginUserId);
+            var user = _userRepository.First(new UserFilterSpecification(LoginUserId));
             var roleIds = user.Roles?.Select(o => o.Id).ToList();
             if (roleIds != null)
             {

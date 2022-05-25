@@ -25,7 +25,7 @@ namespace UUMS.Application.Specifications
         public RoleFilterSpecification(List<Guid> roleids)
             : base()
         {
-            Query.Where(o => roleids.Contains(o.Id));
+            Query.Include(o => o.Menus).Where(o => roleids.Contains(o.Id));
         }
     }
 }

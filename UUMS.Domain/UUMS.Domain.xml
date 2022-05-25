@@ -69,11 +69,6 @@
             菜单
             </summary>
         </member>
-        <member name="P:UUMS.Domain.DO.Menu.Id">
-            <summary>
-            id
-            </summary>
-        </member>
         <member name="P:UUMS.Domain.DO.Menu.ParentId">
             <summary>
             父Id
@@ -81,22 +76,25 @@
         </member>
         <member name="P:UUMS.Domain.DO.Menu.Name">
             <summary>
-            名称
+            名称（必填）
             </summary>
         </member>
         <member name="P:UUMS.Domain.DO.Menu.AlwaysShow">
             <summary>
-            总是显示（顶层）
+            如果为true，菜单（root），总是显示
+            如果为false，没有子菜单则不显示
             </summary>
         </member>
         <member name="P:UUMS.Domain.DO.Menu.Hidden">
             <summary>
-            隐藏
+            如果为true，侧边栏不显示
+            默认值：false
             </summary>
         </member>
         <member name="P:UUMS.Domain.DO.Menu.Redirect">
             <summary>
             重定向
+            默认值：noRedirect
             </summary>
         </member>
         <member name="P:UUMS.Domain.DO.Menu.Path">
@@ -127,26 +125,6 @@
         <member name="P:UUMS.Domain.DO.Menu.SortNo">
             <summary>
             排序号
-            </summary>
-        </member>
-        <member name="P:UUMS.Domain.DO.Menu.CreatedBy">
-            <summary>
-            创建人
-            </summary>
-        </member>
-        <member name="P:UUMS.Domain.DO.Menu.CreatedAt">
-            <summary>
-            创建时间
-            </summary>
-        </member>
-        <member name="P:UUMS.Domain.DO.Menu.LastUpdatedBy">
-            <summary>
-            最后更新用户
-            </summary>
-        </member>
-        <member name="P:UUMS.Domain.DO.Menu.LastUpdatedAt">
-            <summary>
-            更新时间
             </summary>
         </member>
         <member name="P:UUMS.Domain.DO.Menu.Roles">
@@ -209,11 +187,6 @@
             角色
             </summary>
         </member>
-        <member name="P:UUMS.Domain.DO.Role.Id">
-            <summary>
-            id
-            </summary>
-        </member>
         <member name="P:UUMS.Domain.DO.Role.Name">
             <summary>
             角色名称
@@ -229,26 +202,6 @@
             是否启用
             </summary>
         </member>
-        <member name="P:UUMS.Domain.DO.Role.CreatedBy">
-            <summary>   
-            创建人
-            </summary>
-        </member>
-        <member name="P:UUMS.Domain.DO.Role.CreatedAt">
-            <summary>
-            创建时间
-            </summary>
-        </member>
-        <member name="P:UUMS.Domain.DO.Role.LastUpdatedBy">
-            <summary>
-            最后更新用户
-            </summary>
-        </member>
-        <member name="P:UUMS.Domain.DO.Role.LastUpdatedAt">
-            <summary>
-            更新时间
-            </summary>
-        </member>
         <member name="P:UUMS.Domain.DO.Role.Menus">
             <summary>
             关联菜单
@@ -262,11 +215,6 @@
         <member name="T:UUMS.Domain.DO.User">
             <summary>
             用户
-            </summary>
-        </member>
-        <member name="P:UUMS.Domain.DO.User.Id">
-            <summary>
-            id
             </summary>
         </member>
         <member name="P:UUMS.Domain.DO.User.Name">
@@ -304,11 +252,6 @@
             邮箱
             </summary>
         </member>
-        <member name="P:UUMS.Domain.DO.User.CreatedAt">
-            <summary>
-            创建时间
-            </summary>
-        </member>
         <member name="P:UUMS.Domain.DO.User.Org">
             <summary>
             组织机构
@@ -317,6 +260,31 @@
         <member name="P:UUMS.Domain.DO.User.Roles">
             <summary>
             用户角色
+            </summary>
+        </member>
+        <member name="P:UUMS.Domain.EntityBase.Id">
+            <summary>
+            id
+            </summary>
+        </member>
+        <member name="P:UUMS.Domain.EntityBase.CreatedBy">
+            <summary>   
+            创建人
+            </summary>
+        </member>
+        <member name="P:UUMS.Domain.EntityBase.CreatedAt">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:UUMS.Domain.EntityBase.LastUpdatedBy">
+            <summary>
+            最后更新用户
+            </summary>
+        </member>
+        <member name="P:UUMS.Domain.EntityBase.LastUpdatedAt">
+            <summary>
+            更新时间
             </summary>
         </member>
     </members>

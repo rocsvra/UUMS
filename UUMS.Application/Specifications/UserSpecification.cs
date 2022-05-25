@@ -28,5 +28,10 @@ namespace UUMS.Application.Specifications
                 .Skip(pageIndex * pageSize)
                 .Take(pageSize);
         }
+
+        public UserFilterSpecification(Guid id)
+        {
+            Query.Include(o => o.Roles).Where(o => o.Id == id);
+        }
     }
 }

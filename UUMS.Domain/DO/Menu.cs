@@ -6,30 +6,29 @@ namespace UUMS.Domain.DO
     /// <summary>
     /// 菜单
     /// </summary>
-    public class Menu
+    public class Menu : EntityBase
     {
-        /// <summary>
-        /// id
-        /// </summary>
-        public Guid Id { get; set; }
         /// <summary>
         /// 父Id
         /// </summary>
         public Guid? ParentId { get; set; }
         /// <summary>
-        /// 名称
+        /// 名称（必填）
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// 总是显示（顶层）
+        /// 如果为true，菜单（root），总是显示
+        /// 如果为false，没有子菜单则不显示
         /// </summary>
         public bool AlwaysShow { get; set; }
         /// <summary>
-        /// 隐藏
+        /// 如果为true，侧边栏不显示
+        /// 默认值：false
         /// </summary>
         public bool Hidden { get; set; }
         /// <summary>
         /// 重定向
+        /// 默认值：noRedirect
         /// </summary>
         public string Redirect { get; set; }
         /// <summary>
@@ -56,28 +55,11 @@ namespace UUMS.Domain.DO
         /// 排序号
         /// </summary>
         public int SortNo { get; set; }
-        /// <summary>
-        /// 创建人
-        /// </summary>
-        public string CreatedBy { get; set; }
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public DateTime CreatedAt { get; set; }
-        /// <summary>
-        /// 最后更新用户
-        /// </summary>
-        public string LastUpdatedBy { get; set; }
-        /// <summary>
-        /// 更新时间
-        /// </summary>
-        public DateTime? LastUpdatedAt { get; set; }
 
         /// <summary>
         /// 关联角色
         /// </summary>
         public ICollection<Role> Roles { get; set; }
-
         /// <summary>
         /// 客户端ID
         /// </summary>

@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace UUMS.Domain.DO
 {
     /// <summary>
     /// 用户
     /// </summary>
-    public class User
+    public class User : EntityBase
     {
-        /// <summary>
-        /// id
-        /// </summary>
-        public Guid Id { get; set; }
         /// <summary>
         /// 用户姓名
         /// </summary>
@@ -40,10 +35,6 @@ namespace UUMS.Domain.DO
         /// 邮箱
         /// </summary>
         public string Mail { get; set; }
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public DateTime CreatedAt { get; set; }
 
         /// <summary>
         /// 组织机构
