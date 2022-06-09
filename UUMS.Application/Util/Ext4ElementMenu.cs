@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UUMS.Application.Vos;
 using UUMS.Domain.DO;
 
-namespace UUMS.API.Util
+namespace UUMS.Application.Util
 {
     public static class Ext4ElementMenu
     {

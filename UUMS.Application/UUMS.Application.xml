@@ -174,5 +174,153 @@
             客户端分页过滤
             </summary>
         </member>
+        <member name="M:UUMS.Application.Util.Ext4ElementMenu.GetTreeChildren(System.Collections.Generic.IEnumerable{UUMS.Domain.DO.Menu},System.Nullable{System.Guid})">
+            <summary>
+            递归实现树
+            </summary>
+            <param name="items">所有数据</param>
+            <param name="parentId">子数据的父ID</param>
+            <returns></returns>
+        </member>
+        <member name="P:UUMS.Application.Vos.ClientVO.Name">
+            <summary>
+            客户端名称
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.ClientVO.HasMenu">
+            <summary>
+            是否拥有菜单
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.ClientVO.SortNo">
+            <summary>
+            排序号
+            </summary>
+        </member>
+        <member name="T:UUMS.Application.Vos.ElementMenuVO">
+            <summary>
+            ElementUI菜单结构
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.ElementMenuVO.id">
+            <summary>
+            菜单id
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.ElementMenuVO.name">
+            <summary>
+            菜单名称
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.ElementMenuVO.alwaysShow">
+            <summary>
+            总是显示（顶层）
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.ElementMenuVO.hidden">
+            <summary>
+            隐藏
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.ElementMenuVO.redirect">
+            <summary>
+            重定向
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.ElementMenuVO.path">
+            <summary>
+            路径
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.ElementMenuVO.component">
+            <summary>
+            组件
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.ElementMenuVO.meta">
+            <summary>
+            菜单元数据
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.ElementMenuVO.children">
+            <summary>
+            子菜单
+            </summary>
+        </member>
+        <member name="T:UUMS.Application.Vos.ElementMenuMeta">
+            <summary>
+            菜单元数据
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.ElementMenuMeta.title">
+            <summary>
+            菜单名称
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.ElementMenuMeta.icon">
+            <summary>
+            图标
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.ElementMenuMeta.noCache">
+            <summary>
+            缓存
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.RoleVO.Name">
+            <summary>
+            角色名称
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.RoleVO.Description">
+            <summary>
+            角色描述
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.RoleVO.Enabled">
+            <summary>
+            是否启用
+            </summary>
+        </member>
+        <member name="T:UUMS.Application.Vos.UserVO">
+            <summary>
+            用户
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.UserVO.Name">
+            <summary>
+            用户姓名
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.UserVO.Account">
+            <summary>
+            账号/工号
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.UserVO.Sex">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.UserVO.Mobile">
+            <summary>
+            手机
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.UserVO.Mail">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.UserPswVO.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.UserPswVO.RepeatPassword">
+            <summary>
+            确认密码
+            </summary>
+        </member>
     </members>
 </doc>

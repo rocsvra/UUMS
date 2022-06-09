@@ -1,4 +1,4 @@
-﻿namespace UUMS.API
+﻿namespace UUMS.Application.Vos
 {
     /// <summary>
     /// 用户

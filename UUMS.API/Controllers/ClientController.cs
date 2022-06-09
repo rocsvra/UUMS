@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using UUMS.Application.Dtos;
 using UUMS.Application.Specifications;
+using UUMS.Application.Vos;
 using UUMS.Domain.DO;
 
 namespace UUMS.API.Controllers

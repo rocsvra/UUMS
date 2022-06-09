@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace UUMS.API
+namespace UUMS.Application.Vos
 {
     /// <summary>
     /// ElementUI菜单结构
