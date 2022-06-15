@@ -45,10 +45,10 @@ namespace UUMS.Domain.DO
         /// <summary>
         /// 头像文件Id
         /// </summary>
-        public Guid AvatarFileId { get; set; }
+        public Guid? AvatarFileId { get; set; }
         /// <summary>
         /// 头像
         /// </summary>
-        public FileInfo AvatarFile { get; set; }
+        public FileInfo? AvatarFile { get; set; }
     }
 }

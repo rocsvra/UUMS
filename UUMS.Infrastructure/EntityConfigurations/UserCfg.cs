@@ -32,10 +32,10 @@ namespace UUMS.Infrastructure.EntityConfigurations
 
             builder.HasAlternateKey(o => o.Account);
 
+            builder.Property(e => e.AvatarFileId);
             builder.HasOne(o => o.AvatarFile)
                 .WithMany(o => o.Users)
-                .HasForeignKey(d => d.AvatarFileId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .HasForeignKey(d => d.AvatarFileId);
         }
     }
 }
