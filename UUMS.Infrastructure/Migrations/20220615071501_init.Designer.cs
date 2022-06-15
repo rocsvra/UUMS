@@ -10,8 +10,8 @@ using UUMS.Infrastructure;
 namespace UUMS.Infrastructure.Migrations
 {
     [DbContext(typeof(UumsDbContext))]
-    [Migration("20210817063413_menu")]
-    partial class menu
+    [Migration("20220615071501_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -57,8 +57,9 @@ namespace UUMS.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("HasMenu")
-                        .HasColumnType("bit");
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -71,6 +72,35 @@ namespace UUMS.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Client");
+                });
+
+            modelBuilder.Entity("UUMS.Domain.DO.FileInfo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ContentType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Extension")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FileInfo");
                 });
 
             modelBuilder.Entity("UUMS.Domain.DO.Job", b =>
@@ -106,32 +136,17 @@ namespace UUMS.Infrastructure.Migrations
                     b.Property<bool>("AlwaysShow")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("ClientId")
+                    b.Property<Guid>("ClientId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Component")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<bool>("Hidden")
                         .HasColumnType("bit");
 
                     b.Property<string>("Icon")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("LastUpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastUpdatedBy")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -242,11 +257,20 @@ namespace UUMS.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(30)");
 
-                    b.Property<string>("Avatar")
-                        .HasColumnType("varchar(150)");
+                    b.Property<Guid>("AvatarFileId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastUpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastUpdatedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Mail")
                         .IsRequired()
@@ -273,6 +297,8 @@ namespace UUMS.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasAlternateKey("Account");
+
+                    b.HasIndex("AvatarFileId");
 
                     b.HasIndex("OrgId");
 
@@ -325,16 +351,25 @@ namespace UUMS.Infrastructure.Migrations
                     b.HasOne("UUMS.Domain.DO.Client", "Client")
                         .WithMany("Menus")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Client");
                 });
 
             modelBuilder.Entity("UUMS.Domain.DO.User", b =>
                 {
+                    b.HasOne("UUMS.Domain.DO.FileInfo", "AvatarFile")
+                        .WithMany("Users")
+                        .HasForeignKey("AvatarFileId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("UUMS.Domain.DO.Org", "Org")
                         .WithMany("Users")
                         .HasForeignKey("OrgId");
+
+                    b.Navigation("AvatarFile");
 
                     b.Navigation("Org");
                 });
@@ -342,6 +377,11 @@ namespace UUMS.Infrastructure.Migrations
             modelBuilder.Entity("UUMS.Domain.DO.Client", b =>
                 {
                     b.Navigation("Menus");
+                });
+
+            modelBuilder.Entity("UUMS.Domain.DO.FileInfo", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("UUMS.Domain.DO.Org", b =>

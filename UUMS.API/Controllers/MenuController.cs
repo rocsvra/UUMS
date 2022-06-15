@@ -61,8 +61,6 @@ namespace UUMS.API.Controllers
 
             param.Id = Guid.NewGuid();
             var entity = param.Map<MenuDto, Menu>();
-            entity.CreatedAt = DateTime.Now;
-            entity.CreatedBy = LoginUserName;
             _unitOfWork.Add(entity);
             _unitOfWork.Commit();
             return param;
@@ -101,8 +99,6 @@ namespace UUMS.API.Controllers
             menu.Icon = param.Icon;
             menu.NoCache = param.NoCache;
             menu.SortNo = param.SortNo;
-            menu.LastUpdatedBy = LoginUserName;
-            menu.LastUpdatedAt = DateTime.Now;
             _unitOfWork.Modify(menu);
             _unitOfWork.Commit();
 

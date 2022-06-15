@@ -6,8 +6,12 @@ namespace UUMS.Domain.DO
     /// <summary>
     /// 菜单
     /// </summary>
-    public class Menu : EntityBase
+    public class Menu 
     {
+        /// <summary>
+        /// id
+        /// </summary>
+        public Guid Id { get; set; }
         /// <summary>
         /// 父Id
         /// </summary>
@@ -59,7 +63,7 @@ namespace UUMS.Domain.DO
         /// <summary>
         /// 关联角色
         /// </summary>
-        public ICollection<Role> Roles { get; set; }
+        public List<Role> Roles { get; set; }
         /// <summary>
         /// 客户端ID
         /// </summary>

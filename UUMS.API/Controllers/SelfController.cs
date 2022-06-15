@@ -67,13 +67,13 @@ namespace UUMS.API.Controllers
             {
                 return BadRequest("密码错误");
             }
-
+            string avatar = string.Empty;
             //创建用户身份标识
             var claims = new Claim[]
             {
                 new Claim("userid", user.Id.ToString()),
                 new Claim("username", user.Name),
-                new Claim("avatar",user.Avatar??"")
+                new Claim("avatar",avatar)
             };
             //创建令牌
             var jstoken = new JwtSecurityToken(
@@ -146,22 +146,26 @@ namespace UUMS.API.Controllers
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public ActionResult PutPsw([FromBody] UserPswVO param)
         {
-            if (string.IsNullOrWhiteSpace(param.Password)
-                || string.IsNullOrWhiteSpace(param.RepeatPassword)
-                || param.Password != param.RepeatPassword)
+            if (string.IsNullOrWhiteSpace(param.Password))
             {
-                return BadRequest("参数错误，请保持两次输入密码一致");
-            }
-            if (param.Password.Length < 6)
-            {
-                return BadRequest("密码至少6位");
+                return BadRequest("请输入原密码");
             }
             var user = _userRepository.Find(LoginUserId);
-            if (user == null)
+            var psw = MD5.Encrypt(param.Password);
+            if (user.Password != psw)
             {
-                return BadRequest("参数错误，用户未登录");
+                return BadRequest("原密码错误");
             }
-            user.Password = MD5.Encrypt(param.Password);
+
+            if (param.NewPassword.Length <= 6)
+            {
+                return BadRequest("新密码至少6位");
+            }
+            if (param.NewPassword != param.RepeatPassword)
+            {
+                return BadRequest("请保持两次输入密码一致");
+            }
+            user.Password = MD5.Encrypt(param.NewPassword);
             _unitOfWork.Modify(user);
             _unitOfWork.Commit();
             return Ok();

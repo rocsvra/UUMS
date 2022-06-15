@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace UUMS.Domain.DO
 {
@@ -22,11 +23,7 @@ namespace UUMS.Domain.DO
         /// <summary>
         /// 性别
         /// </summary>
-        public bool? Sex { get; set; }
-        /// <summary>
-        /// 头像
-        /// </summary>
-        public string Avatar { get; set; }
+        public bool? Sex { get; set; } 
         /// <summary>
         /// 手机
         /// </summary>
@@ -44,5 +41,14 @@ namespace UUMS.Domain.DO
         /// 用户角色
         /// </summary>
         public List<Role> Roles { get; set; }
+
+        /// <summary>
+        /// 头像文件Id
+        /// </summary>
+        public Guid AvatarFileId { get; set; }
+        /// <summary>
+        /// 头像
+        /// </summary>
+        public FileInfo AvatarFile { get; set; }
     }
 }

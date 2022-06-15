@@ -17,9 +17,9 @@ namespace UUMS.Domain.DO
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// 是否拥有菜单
+        /// 描述
         /// </summary>
-        public bool HasMenu { get; set; }
+        public string Description { get; set; }
         /// <summary>
         /// 排序号
         /// </summary>

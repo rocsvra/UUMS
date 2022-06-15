@@ -21,8 +21,6 @@ namespace UUMS.Infrastructure.EntityConfigurations
                 .HasColumnType("varchar(100)");
             builder.Property(o => o.Sex)
                 .HasColumnType("bit");
-            builder.Property(o => o.Avatar)
-                .HasColumnType("varchar(150)");
             builder.Property(o => o.Mobile)
                 .IsRequired()
                 .HasColumnType("varchar(50)");
@@ -33,6 +31,11 @@ namespace UUMS.Infrastructure.EntityConfigurations
                 .IsRequired();
 
             builder.HasAlternateKey(o => o.Account);
+
+            builder.HasOne(o => o.AvatarFile)
+                .WithMany(o => o.Users)
+                .HasForeignKey(d => d.AvatarFileId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace UUMS.Domain
         /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTime? CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
         /// <summary>
         /// 最后更新用户
         /// </summary>

@@ -37,5 +37,9 @@
         /// 确认密码
         /// </summary>
         public string RepeatPassword { get; set; }
+        /// <summary>
+        /// 新密码
+        /// </summary>
+        public string NewPassword { get; set; }
     }
 }

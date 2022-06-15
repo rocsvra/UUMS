@@ -25,6 +25,7 @@ namespace UUMS.Infrastructure
         public DbSet<Org> Orgs { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<FileInfo> FileInfoes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,6 +36,7 @@ namespace UUMS.Infrastructure
             modelBuilder.ApplyConfiguration(new OrgCfg());
             modelBuilder.ApplyConfiguration(new RoleCfg());
             modelBuilder.ApplyConfiguration(new UserCfg());
+            modelBuilder.ApplyConfiguration(new FileInfoCfg());
         }
     }
 }

@@ -19,9 +19,9 @@
             客户端名称
             </summary>
         </member>
-        <member name="P:UUMS.Domain.DO.Client.HasMenu">
+        <member name="P:UUMS.Domain.DO.Client.Description">
             <summary>
-            是否拥有菜单
+            描述
             </summary>
         </member>
         <member name="P:UUMS.Domain.DO.Client.SortNo">
@@ -32,6 +32,32 @@
         <member name="P:UUMS.Domain.DO.Client.Menus">
             <summary>
             菜单
+            </summary>
+        </member>
+        <member name="P:UUMS.Domain.DO.FileInfo.FileName">
+            <summary>
+            文件名（虚拟磁盘路径/数据两级目录/文件名）
+            不包含组名
+            </summary>
+        </member>
+        <member name="P:UUMS.Domain.DO.FileInfo.Extension">
+            <summary>
+            后缀名
+            </summary>
+        </member>
+        <member name="P:UUMS.Domain.DO.FileInfo.FileSize">
+            <summary>
+            文件大小
+            </summary>
+        </member>
+        <member name="P:UUMS.Domain.DO.FileInfo.ContentType">
+            <summary>
+            内容类型
+            </summary>
+        </member>
+        <member name="P:UUMS.Domain.DO.FileInfo.CreatedAt">
+            <summary>
+            创建时间
             </summary>
         </member>
         <member name="T:UUMS.Domain.DO.Job">
@@ -67,6 +93,11 @@
         <member name="T:UUMS.Domain.DO.Menu">
             <summary>
             菜单
+            </summary>
+        </member>
+        <member name="P:UUMS.Domain.DO.Menu.Id">
+            <summary>
+            id
             </summary>
         </member>
         <member name="P:UUMS.Domain.DO.Menu.ParentId">
@@ -237,11 +268,6 @@
             性别
             </summary>
         </member>
-        <member name="P:UUMS.Domain.DO.User.Avatar">
-            <summary>
-            头像
-            </summary>
-        </member>
         <member name="P:UUMS.Domain.DO.User.Mobile">
             <summary>
             手机
@@ -260,6 +286,16 @@
         <member name="P:UUMS.Domain.DO.User.Roles">
             <summary>
             用户角色
+            </summary>
+        </member>
+        <member name="P:UUMS.Domain.DO.User.AvatarFileId">
+            <summary>
+            头像文件Id
+            </summary>
+        </member>
+        <member name="P:UUMS.Domain.DO.User.AvatarFile">
+            <summary>
+            头像
             </summary>
         </member>
         <member name="P:UUMS.Domain.EntityBase.Id">

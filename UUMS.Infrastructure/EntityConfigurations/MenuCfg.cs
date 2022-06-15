@@ -15,8 +15,6 @@ namespace UUMS.Infrastructure.EntityConfigurations
             builder.Property(o => o.Component).HasMaxLength(100);
             builder.Property(o => o.Title).HasMaxLength(100);
             builder.Property(o => o.Icon).HasMaxLength(50);
-            builder.Property(o => o.CreatedBy).IsRequired().HasMaxLength(50);
-            builder.Property(o => o.LastUpdatedBy).HasMaxLength(50);
 
             builder.Property(o => o.Name)
                 .IsRequired()

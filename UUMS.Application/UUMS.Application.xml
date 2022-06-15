@@ -19,11 +19,6 @@
             客户端名称
             </summary>
         </member>
-        <member name="P:UUMS.Application.Dtos.ClientDto.HasMenu">
-            <summary>
-            是否拥有菜单
-            </summary>
-        </member>
         <member name="P:UUMS.Application.Dtos.ClientDto.SortNo">
             <summary>
             排序号
@@ -320,6 +315,11 @@
         <member name="P:UUMS.Application.Vos.UserPswVO.RepeatPassword">
             <summary>
             确认密码
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.UserPswVO.NewPassword">
+            <summary>
+            新密码
             </summary>
         </member>
     </members>
