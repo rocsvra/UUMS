@@ -1,4 +1,5 @@
 ﻿using AdunTech.ExceptionDetail;
+using AdunTech.FSS;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -42,6 +43,10 @@ namespace UUMS.API
                             .AllowAnyHeader()
                             .WithOrigins("http://localhost:9528/");
                     }));
+
+            //文件存储
+            services.Configure<FssOptions>(Configuration.GetSection(nameof(FssOptions)));
+            services.AddScoped<IFssService, FssService>();
 
             //注册仓储
             services.RegisterRepository(Configuration.GetConnectionString("Bull_HR"));

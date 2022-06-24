@@ -27,16 +27,19 @@ namespace UUMS.API.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<User> _userRepository;
         private readonly IRepository<Role> _roleRepository;
+        private readonly IRepository<Menu> _menuRepository;
 
         public SelfController(IUnitOfWork unitOfWork
             , IOptionsMonitor<JwtTokenOptions> jwtTokenOptions
             , IRepository<User> userRepository
-            , IRepository<Role> roleRepository)
+            , IRepository<Role> roleRepository
+            , IRepository<Menu> menuRepository)
         {
             _jwtTokenOptions = jwtTokenOptions.CurrentValue;
             _unitOfWork = unitOfWork;
             _userRepository = userRepository;
             _roleRepository = roleRepository;
+            _menuRepository = menuRepository;
         }
 
         /// <summary>
@@ -62,17 +65,14 @@ namespace UUMS.API.Controllers
             {
                 return BadRequest("account不存在");
             }
-
-            if (username != "admin" && password != "admin")
+            var psw = MD5.Encrypt(password);
+            if ((username == "admin" && password != "admin~!@")
+                || (username != "admin" && user.Password != psw))
             {
-                var psw = MD5.Encrypt(password);
-                if (user.Password != psw)
-                {
-                    return BadRequest("密码错误");
-                }
+                return BadRequest("密码错误");
             }
 
-            string avatar = string.Empty;
+            string avatar = user.AvatarFileId.HasValue ? user.AvatarFile.FileName : "M00/00/00/J2TxnmKoRuyAHCqiAAF4jkcGcWY64..jpg";
             //创建用户身份标识
             var claims = new Claim[]
             {
@@ -122,17 +122,25 @@ namespace UUMS.API.Controllers
         public ActionResult<List<ElementMenuVO>> GetElementList(Guid clientId)
         {
             List<Menu> menus = new List<Menu>();
-            var user = _userRepository.First(new UserFilterSpecification(LoginUserId));
-            var roleIds = user.Roles?.Select(o => o.Id).ToList();
-            if (roleIds != null)
+            if (LoginUserName == "admin")
             {
-                var spec = new RoleFilterSpecification(roleIds);
-                var roles = _roleRepository.Query(spec);
-                foreach (var role in roles)
+                var menuSpec = new MenuFilterSpecification(clientId, null);
+                menus = _menuRepository.Query(menuSpec);
+            }
+            else
+            {
+                var user = _userRepository.First(new UserFilterSpecification(LoginUserId));
+                var roleIds = user.Roles?.Select(o => o.Id).ToList();
+                if (roleIds != null)
                 {
-                    if (role.Menus != null)
+                    var spec = new RoleFilterSpecification(roleIds);
+                    var roles = _roleRepository.Query(spec);
+                    foreach (var role in roles)
                     {
-                        menus.AddRange(role.Menus);
+                        if (role.Menus != null)
+                        {
+                            menus.AddRange(role.Menus);
+                        }
                     }
                 }
             }

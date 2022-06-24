@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UUMS.Infrastructure;
 
 namespace UUMS.Infrastructure.Migrations
 {
     [DbContext(typeof(UumsDbContext))]
-    partial class UumsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220623091713_fss")]
+    partial class fss
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

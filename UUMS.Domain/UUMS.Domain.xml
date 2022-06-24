@@ -34,28 +34,28 @@
             菜单
             </summary>
         </member>
-        <member name="P:UUMS.Domain.DO.FileInfo.FileName">
+        <member name="P:UUMS.Domain.DO.FssInfo.FileName">
             <summary>
             文件名（虚拟磁盘路径/数据两级目录/文件名）
             不包含组名
             </summary>
         </member>
-        <member name="P:UUMS.Domain.DO.FileInfo.Extension">
+        <member name="P:UUMS.Domain.DO.FssInfo.Extension">
             <summary>
             后缀名
             </summary>
         </member>
-        <member name="P:UUMS.Domain.DO.FileInfo.FileSize">
+        <member name="P:UUMS.Domain.DO.FssInfo.FileSize">
             <summary>
             文件大小
             </summary>
         </member>
-        <member name="P:UUMS.Domain.DO.FileInfo.ContentType">
+        <member name="P:UUMS.Domain.DO.FssInfo.ContentType">
             <summary>
             内容类型
             </summary>
         </member>
-        <member name="P:UUMS.Domain.DO.FileInfo.CreatedAt">
+        <member name="P:UUMS.Domain.DO.FssInfo.CreatedAt">
             <summary>
             创建时间
             </summary>

@@ -4,11 +4,11 @@ using UUMS.Domain.DO;
 
 namespace UUMS.Infrastructure.EntityConfigurations
 {
-    class FileInfoCfg : IEntityTypeConfiguration<FileInfo>
+    class FssInfoCfg : IEntityTypeConfiguration<FssInfo>
     {
-        public void Configure(EntityTypeBuilder<FileInfo> builder)
+        public void Configure(EntityTypeBuilder<FssInfo> builder)
         {
-            builder.ToTable("FileInfo");
+            builder.ToTable("FssInfo");
             builder.HasKey(o => o.Id);
             builder.Property(o => o.FileName).IsRequired().HasMaxLength(500);
             builder.Property(o => o.Extension).HasMaxLength(20);

@@ -49,6 +49,6 @@ namespace UUMS.Domain.DO
         /// <summary>
         /// 头像
         /// </summary>
-        public FileInfo? AvatarFile { get; set; }
+        public FssInfo? AvatarFile { get; set; }
     }
 }

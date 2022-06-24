@@ -19,6 +19,11 @@
             客户端名称
             </summary>
         </member>
+        <member name="P:UUMS.Application.Dtos.ClientDto.Description">
+            <summary>
+            客户端描述
+            </summary>
+        </member>
         <member name="P:UUMS.Application.Dtos.ClientDto.SortNo">
             <summary>
             排序号
@@ -177,14 +182,29 @@
             <param name="parentId">子数据的父ID</param>
             <returns></returns>
         </member>
+        <member name="P:UUMS.Application.Vos.Base64VO.Content">
+            <summary>
+            base64串
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.Base64VO.Extension">
+            <summary>
+            后缀名
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.Base64VO.Name">
+            <summary>
+            文件名(不带后缀)
+            </summary>
+        </member>
         <member name="P:UUMS.Application.Vos.ClientVO.Name">
             <summary>
             客户端名称
             </summary>
         </member>
-        <member name="P:UUMS.Application.Vos.ClientVO.HasMenu">
+        <member name="P:UUMS.Application.Vos.ClientVO.Description">
             <summary>
-            是否拥有菜单
+            描述
             </summary>
         </member>
         <member name="P:UUMS.Application.Vos.ClientVO.SortNo">

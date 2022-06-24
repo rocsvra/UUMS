@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace UUMS.Domain.DO
 {
-    public  class FileInfo
+    public  class FssInfo
     {
         public Guid Id { get; set; }
         /// <summary>

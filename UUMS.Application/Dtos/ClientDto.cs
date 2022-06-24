@@ -16,6 +16,10 @@ namespace UUMS.Application.Dtos
         /// </summary>
         public string Name { get; set; }
         /// <summary>
+        /// 客户端描述
+        /// </summary>
+        public string Description { get; set; }
+        /// <summary>
         /// 排序号
         /// </summary>
         public int SortNo { get; set; }
