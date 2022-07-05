@@ -122,6 +122,14 @@
             <param name="menuids">菜单id列表</param>
             <returns></returns>
         </member>
+        <member name="M:UUMS.API.Controllers.RoleController.GetList(System.Guid,System.String)">
+            <summary>
+             获取客户端菜单列表
+            </summary>
+            <param name="clientId"></param>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
         <member name="T:UUMS.API.Controllers.SelfController">
             <summary>
             用户自我信息
