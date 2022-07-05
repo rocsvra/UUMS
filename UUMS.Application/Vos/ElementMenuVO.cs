@@ -44,6 +44,10 @@ namespace UUMS.Application.Vos
         /// 子菜单
         /// </summary>
         public List<ElementMenuVO> children { get; set; }
+        /// <summary>
+        /// 排序号
+        /// </summary>
+        public int sortNo { get; set; }
     }
 
     /// <summary>

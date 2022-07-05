@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UUMS.Application.Dtos;
 using UUMS.Application.Specifications;
+using UUMS.Application.Util;
+using UUMS.Application.Vos;
 using UUMS.Domain.DO;
 
 namespace UUMS.API.Controllers
@@ -36,11 +38,11 @@ namespace UUMS.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public ActionResult<List<MenuDto>> GetList(Guid clientId, string name)
+        public ActionResult<List<ElementMenuVO>> GetList(Guid clientId, string name)
         {
             var spec = new MenuFilterSpecification(clientId, name);
             var menus = _menuRepository.Query(spec);
-            return menus.Map<Menu, MenuDto>().ToList();
+            return menus.ToElementMenu();
         }
 
         /// <summary>

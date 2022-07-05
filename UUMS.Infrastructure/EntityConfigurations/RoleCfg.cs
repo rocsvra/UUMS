@@ -17,6 +17,11 @@ namespace UUMS.Infrastructure.EntityConfigurations
             builder.Property(o => o.CreatedBy).IsRequired().HasMaxLength(50);
             builder.Property(o => o.LastUpdatedAt);
             builder.Property(o => o.LastUpdatedBy).HasMaxLength(50);
+
+
+            builder.HasOne(o => o.Client)
+                .WithMany(o => o.Roles)
+                .HasForeignKey(o => o.ClientId);
         }
     }
 }

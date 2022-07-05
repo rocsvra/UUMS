@@ -17,9 +17,9 @@ namespace UUMS.Application.Vos
         public string Extension { get; set; }
 
         /// <summary>
-        /// 文件名(不带后缀)
+        /// mime类型
         /// </summary>
-        [JsonPropertyName("Name")]
-        public string Name { get; set; }
+        [JsonPropertyName("MIME")]
+        public string MIME { get; set; }
     }
 }

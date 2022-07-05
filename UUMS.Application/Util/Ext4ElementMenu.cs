@@ -34,6 +34,7 @@ namespace UUMS.Application.Util
                     redirect = subItem.Redirect,
                     path = subItem.Path,
                     component = subItem.Component,
+                    sortNo = subItem.SortNo,
                     meta = new ElementMenuMeta
                     {
                         title = subItem.Title,

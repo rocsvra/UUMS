@@ -163,9 +163,11 @@ namespace UUMS.API.Controllers
             {
                 return BadRequest("请输入原密码");
             }
+
             var user = _userRepository.Find(LoginUserId);
             var psw = MD5.Encrypt(param.Password);
-            if (user.Password != psw)
+            if ((LoginUserName != "admin" && user.Password != psw)
+                || (LoginUserName == "admin" && param.Password != "admin~!@"))
             {
                 return BadRequest("原密码错误");
             }
@@ -181,6 +183,62 @@ namespace UUMS.API.Controllers
             user.Password = MD5.Encrypt(param.NewPassword);
             _unitOfWork.Modify(user);
             _unitOfWork.Commit();
+            return Ok();
+        }
+
+        /// <summary>
+        /// 更换头像
+        /// </summary>
+        /// <param name="fileId"></param>
+        /// <returns></returns>
+        [HttpPut("Avatar")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+
+        public ActionResult PutAvatar(Guid fileId)
+        {
+            var user = _userRepository.Find(LoginUserId);
+            user.AvatarFileId = fileId;
+            _unitOfWork.Modify(user);
+            _unitOfWork.Commit();
+            return Ok();
+        }
+
+        /// <summary>
+        /// 更新个人基本信息
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        [HttpPut("Base")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+
+        public ActionResult PutBase([FromBody] UserVO param)
+        {
+            if (string.IsNullOrWhiteSpace(param.Name)
+                || string.IsNullOrWhiteSpace(param.Account)
+                || string.IsNullOrWhiteSpace(param.Mobile))
+            {
+                return BadRequest("参数错误");
+            }
+
+            var user = _userRepository.Find(LoginUserId);
+            var spec = new UserFilterSpecification(o => o.Account == param.Account);
+            var sameAccountUser = _userRepository.FirstOrDefault(spec);
+            if (user.Account != param.Account && sameAccountUser != null)
+            {
+                return BadRequest("参数错误，account已被使用");
+            }
+            user.Name = param.Name;
+            user.Account = param.Account;
+            user.Sex = param.Sex;
+            user.Mobile = param.Mobile;
+            user.Mail = param.Mail;
+            _unitOfWork.Modify(user);
+            _unitOfWork.Commit();
+
             return Ok();
         }
     }

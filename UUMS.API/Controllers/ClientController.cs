@@ -5,6 +5,8 @@ using AdunTech.ExceptionDetail;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UUMS.Application.Dtos;
 using UUMS.Application.Specifications;
 using UUMS.Application.Vos;
@@ -21,6 +23,22 @@ namespace UUMS.API.Controllers
         {
             _unitOfWork = unitOfWork;
             _clientRepository = clientRepository;
+        }
+
+        /// <summary>
+        ///  获取所有客户端
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("All")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public ActionResult<List<ClientDto>> GetAll()
+        {
+            var clients = _clientRepository.All();
+            var dtos = clients.Map<Client, ClientDto>();
+            return dtos.ToList();
         }
 
         /// <summary>
@@ -103,11 +121,6 @@ namespace UUMS.API.Controllers
             {
                 throw new BadRequestException(HttpContext.TraceIdentifier, "ParameterError");
             }
-            if (_clientRepository.Find(id) == null)
-            {
-                throw new BadRequestException(HttpContext.TraceIdentifier, "ParameterError", "id不存在");
-            }
-
             var entity = param.Map<ClientVO, Client>();
             entity.Id = id;
             _unitOfWork.Modify(entity);

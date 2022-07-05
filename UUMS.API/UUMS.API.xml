@@ -4,6 +4,12 @@
         <name>UUMS.API</name>
     </assembly>
     <members>
+        <member name="M:UUMS.API.Controllers.ClientController.GetAll">
+            <summary>
+             获取所有客户端
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:UUMS.API.Controllers.ClientController.GetPage(System.Int32,System.Int32,System.String)">
             <summary>
              获取客户端(分页)
@@ -40,6 +46,13 @@
             删除客户端
             </summary>
             <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UUMS.API.Controllers.FileStorageController.PostBase64(UUMS.Application.Vos.Base64VO)">
+            <summary>
+            图片上传(base64)
+            支持 ".pdf",".bmp",".jpg",".png",".jpeg"
+            </summary>
             <returns></returns>
         </member>
         <member name="T:UUMS.API.Controllers.MenuController">
@@ -138,6 +151,20 @@
         <member name="M:UUMS.API.Controllers.SelfController.PutPsw(UUMS.Application.Vos.UserPswVO)">
             <summary>
             修改用户密码
+            </summary>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UUMS.API.Controllers.SelfController.PutAvatar(System.Guid)">
+            <summary>
+            更换头像
+            </summary>
+            <param name="fileId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UUMS.API.Controllers.SelfController.PutBase(UUMS.Application.Vos.UserVO)">
+            <summary>
+            更新个人基本信息
             </summary>
             <param name="param"></param>
             <returns></returns>

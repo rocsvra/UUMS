@@ -37,10 +37,9 @@ namespace UUMS.API.Controllers
         [HttpPost("Base64")]
         public ActionResult<UploadFileVO> PostBase64(Base64VO param)
         {
-            if (!string.IsNullOrEmpty(param.Name)
-                && param.Name.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
+            if (string.IsNullOrEmpty(param.Extension) || string.IsNullOrEmpty(param.Content))
             {
-                return BadRequest("文件名不能包含下列任何字符：\\/:*?\"<>|");
+                return BadRequest("参数错误！");
             }
 
             List<string> extensions = new List<string>
@@ -48,10 +47,6 @@ namespace UUMS.API.Controllers
                 ".pdf",".bmp",".jpg",".png",".jpeg"
             };
 
-            if (string.IsNullOrEmpty(param.Extension) || string.IsNullOrEmpty(param.Content))
-            {
-                return BadRequest("参数错误！");
-            }
             param.Extension = param.Extension.StartsWith('.')
                 ? param.Extension.ToLower()
                 : string.Format(".{0}", param.Extension.ToLower());
@@ -75,11 +70,10 @@ namespace UUMS.API.Controllers
                     ContentType = "",
                     CreatedAt = DateTime.Now
                 });
-
+                _unitOfWork.Commit();
                 return new UploadFileVO()
                 {
                     id = id.ToString(),
-                    name = "",
                     url = filePath
                 };
             }

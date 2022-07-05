@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace UUMS.Domain.DO
 {
@@ -28,5 +29,13 @@ namespace UUMS.Domain.DO
         /// 关联用户
         /// </summary>
         public List<User> Users { get; set; }
+        /// <summary>
+        /// 客户端ID
+        /// </summary>
+        public Guid ClientId { get; set; }
+        /// <summary>
+        /// 所属客户端
+        /// </summary>
+        public Client Client { get; set; }
     }
 }

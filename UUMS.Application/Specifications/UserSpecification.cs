@@ -17,7 +17,7 @@ namespace UUMS.Application.Specifications
         public UserFilterSpecification(Expression<Func<User, bool>> criteria)
             : base()
         {
-            Query.Where(criteria);
+            Query.Include(o=>o.AvatarFile).Where(criteria);
         }
 
         public UserFilterSpecification(int pageIndex, int pageSize, string name)

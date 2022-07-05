@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using UUMS.Application.Dtos;
 using UUMS.Application.Specifications;
+using UUMS.Application.Util;
 using UUMS.Application.Vos;
 using UUMS.Domain.DO;
 
@@ -156,6 +157,24 @@ namespace UUMS.API.Controllers
             _unitOfWork.Commit();
 
             return Ok();
+        }
+
+        /// <summary>
+        ///  获取客户端菜单列表
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        [HttpGet("{clientId}/menus")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public ActionResult<List<ElementMenuVO>> GetList(Guid clientId, string name)
+        {
+            var spec = new MenuFilterSpecification(clientId, name);
+            var menus = _menuRepository.Query(spec);
+            return menus.ToElementMenu();
         }
     }
 }

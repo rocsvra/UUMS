@@ -192,9 +192,9 @@
             后缀名
             </summary>
         </member>
-        <member name="P:UUMS.Application.Vos.Base64VO.Name">
+        <member name="P:UUMS.Application.Vos.Base64VO.MIME">
             <summary>
-            文件名(不带后缀)
+            mime类型
             </summary>
         </member>
         <member name="P:UUMS.Application.Vos.ClientVO.Name">
@@ -262,6 +262,11 @@
             子菜单
             </summary>
         </member>
+        <member name="P:UUMS.Application.Vos.ElementMenuVO.sortNo">
+            <summary>
+            排序号
+            </summary>
+        </member>
         <member name="T:UUMS.Application.Vos.ElementMenuMeta">
             <summary>
             菜单元数据
@@ -295,6 +300,16 @@
         <member name="P:UUMS.Application.Vos.RoleVO.Enabled">
             <summary>
             是否启用
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.UploadFileVO.id">
+            <summary>
+            文件ID
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.UploadFileVO.url">
+            <summary>
+            文件地址
             </summary>
         </member>
         <member name="T:UUMS.Application.Vos.UserVO">

@@ -29,5 +29,9 @@ namespace UUMS.Domain.DO
         /// 菜单
         /// </summary>
         public List<Menu> Menus { get; set; }
+        /// <summary>
+        /// 角色
+        /// </summary>
+        public List<Role> Roles { get; set; }
     }
 }
