@@ -46,6 +46,28 @@ namespace UUMS.API.Controllers
         }
 
         /// <summary>
+        ///  获取菜单父id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("ParentIds/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public ActionResult<List<Guid>> GetPIds(Guid id)
+        {
+            var menu = _menuRepository.Find(id);
+            if (menu == null)
+            {
+                return BadRequest("参数错误");
+            }
+            var spec = new MenuFilterSpecification(menu.ClientId, string.Empty);
+            var menus = _menuRepository.Query(spec);
+            return menus.GetParentIds(id);
+        }
+
+        /// <summary>
         /// 创建菜单
         /// </summary>
         /// <param name="param"></param>
@@ -104,6 +126,27 @@ namespace UUMS.API.Controllers
             _unitOfWork.Modify(menu);
             _unitOfWork.Commit();
 
+            return Ok();
+        }
+
+        /// <summary>
+        /// 删除菜单
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public ActionResult Delete(Guid id)
+        {
+            var menu = _menuRepository.Find(id);
+            if (menu == null)
+            {
+                return BadRequest("参数错误，id不存在");
+            }
+            _unitOfWork.Remove(menu);
+            _unitOfWork.Commit();
             return Ok();
         }
     }

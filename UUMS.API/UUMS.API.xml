@@ -68,6 +68,13 @@
             <param name="name"></param>
             <returns></returns>
         </member>
+        <member name="M:UUMS.API.Controllers.MenuController.GetPIds(System.Guid)">
+            <summary>
+             获取菜单父id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:UUMS.API.Controllers.MenuController.Post(UUMS.Application.Dtos.MenuDto)">
             <summary>
             创建菜单
@@ -81,6 +88,13 @@
             </summary>
             <param name="id"></param>
             <param name="param"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UUMS.API.Controllers.MenuController.Delete(System.Guid)">
+            <summary>
+            删除菜单
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:UUMS.API.Controllers.RoleController.GetPage(System.Guid,System.Int32,System.Int32,System.String)">

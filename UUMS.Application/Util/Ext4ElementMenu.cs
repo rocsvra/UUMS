@@ -8,6 +8,27 @@ namespace UUMS.Application.Util
 {
     public static class Ext4ElementMenu
     {
+
+        public static List<Guid> GetParentIds(this IEnumerable<Menu> items, Guid id)
+        {
+            List<Guid> pids = new List<Guid>();
+            AddPid(items, id, ref pids);
+            pids.Reverse();
+            return pids;
+        }
+
+        public static void AddPid(IEnumerable<Menu> items, Guid id, ref List<Guid> pids)
+        {
+            var item = items.Where(o => o.Id == id).First();
+            if (item.ParentId == null) { return; }
+            pids.Add((Guid)item.ParentId);
+            var pitem = items.Where(o => o.Id == item.ParentId).First();
+            if (pitem.ParentId != null)
+            {
+                AddPid(items, (Guid)pitem.ParentId, ref pids);
+            }
+        }
+
         public static List<ElementMenuVO> ToElementMenu(this IEnumerable<Menu> items)
         {
             return GetTreeChildren(items, null);
@@ -25,7 +46,7 @@ namespace UUMS.Application.Util
             var nodes = new List<ElementMenuVO>();
             foreach (var subItem in subItems)
             {
-                nodes.Add(new ElementMenuVO()
+                var vo = new ElementMenuVO()
                 {
                     id = subItem.Id,
                     name = subItem.Name,
@@ -41,8 +62,10 @@ namespace UUMS.Application.Util
                         icon = subItem.Icon,
                         noCache = subItem.NoCache
                     },
-                    subItem = GetTreeChildren(items, subItem.Id)
-                });
+                    children = GetTreeChildren(items, subItem.Id)
+                };
+                if (vo.children.Count == 0) vo.children = null;
+                nodes.Add(vo);
             }
             return nodes;
         }

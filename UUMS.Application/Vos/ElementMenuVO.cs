@@ -43,7 +43,7 @@ namespace UUMS.Application.Vos
         /// <summary>
         /// 子菜单
         /// </summary>
-        public List<ElementMenuVO> subItem { get; set; }
+        public List<ElementMenuVO> children { get; set; }
         /// <summary>
         /// 排序号
         /// </summary>
@@ -56,10 +56,6 @@ namespace UUMS.Application.Vos
         /// 显示值
         /// </summary>
         public Guid value => id;
-        /// <summary>
-        /// 子项目
-        /// </summary>
-        public List<ElementMenuVO> children => (subItem == null || subItem.Count == 0) ? null : subItem;
     }
 
     /// <summary>

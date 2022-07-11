@@ -262,7 +262,7 @@
             菜单元数据
             </summary>
         </member>
-        <member name="P:UUMS.Application.Vos.ElementMenuVO.subItem">
+        <member name="P:UUMS.Application.Vos.ElementMenuVO.children">
             <summary>
             子菜单
             </summary>
@@ -280,11 +280,6 @@
         <member name="P:UUMS.Application.Vos.ElementMenuVO.value">
             <summary>
             显示值
-            </summary>
-        </member>
-        <member name="P:UUMS.Application.Vos.ElementMenuVO.children">
-            <summary>
-            子项目
             </summary>
         </member>
         <member name="T:UUMS.Application.Vos.ElementMenuMeta">

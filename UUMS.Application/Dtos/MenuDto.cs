@@ -10,7 +10,7 @@ namespace UUMS.Application.Dtos
         /// <summary>
         /// id
         /// </summary>
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
         /// <summary>
         /// 客户端
         /// </summary>
