@@ -43,11 +43,23 @@ namespace UUMS.Application.Vos
         /// <summary>
         /// 子菜单
         /// </summary>
-        public List<ElementMenuVO> children { get; set; }
+        public List<ElementMenuVO> subItem { get; set; }
         /// <summary>
         /// 排序号
         /// </summary>
         public int sortNo { get; set; }
+        /// <summary>
+        /// 显示标题
+        /// </summary>
+        public string label => meta?.title;
+        /// <summary>
+        /// 显示值
+        /// </summary>
+        public Guid value => id;
+        /// <summary>
+        /// 子项目
+        /// </summary>
+        public List<ElementMenuVO> children => (subItem == null || subItem.Count == 0) ? null : subItem;
     }
 
     /// <summary>

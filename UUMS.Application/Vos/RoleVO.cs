@@ -1,4 +1,6 @@
-﻿namespace UUMS.Application.Vos
+﻿using System;
+
+namespace UUMS.Application.Vos
 {
     public class RoleVO
     {
@@ -14,5 +16,9 @@
         /// 是否启用
         /// </summary>
         public bool Enabled { get; set; }
+        /// <summary>
+        /// 客户端
+        /// </summary>
+        public Guid ClientId { get; set; }
     }
 }

@@ -41,7 +41,7 @@ namespace UUMS.Application.Util
                         icon = subItem.Icon,
                         noCache = subItem.NoCache
                     },
-                    children = GetTreeChildren(items, subItem.Id)
+                    subItem = GetTreeChildren(items, subItem.Id)
                 });
             }
             return nodes;

@@ -124,6 +124,11 @@
             是否启用
             </summary>
         </member>
+        <member name="P:UUMS.Application.Dtos.RoleDto.ClientId">
+            <summary>
+            客户端
+            </summary>
+        </member>
         <member name="T:UUMS.Application.Dtos.UserDto">
             <summary>
             用户
@@ -257,7 +262,7 @@
             菜单元数据
             </summary>
         </member>
-        <member name="P:UUMS.Application.Vos.ElementMenuVO.children">
+        <member name="P:UUMS.Application.Vos.ElementMenuVO.subItem">
             <summary>
             子菜单
             </summary>
@@ -265,6 +270,21 @@
         <member name="P:UUMS.Application.Vos.ElementMenuVO.sortNo">
             <summary>
             排序号
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.ElementMenuVO.label">
+            <summary>
+            显示标题
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.ElementMenuVO.value">
+            <summary>
+            显示值
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.ElementMenuVO.children">
+            <summary>
+            子项目
             </summary>
         </member>
         <member name="T:UUMS.Application.Vos.ElementMenuMeta">
@@ -300,6 +320,11 @@
         <member name="P:UUMS.Application.Vos.RoleVO.Enabled">
             <summary>
             是否启用
+            </summary>
+        </member>
+        <member name="P:UUMS.Application.Vos.RoleVO.ClientId">
+            <summary>
+            客户端
             </summary>
         </member>
         <member name="P:UUMS.Application.Vos.UploadFileVO.id">

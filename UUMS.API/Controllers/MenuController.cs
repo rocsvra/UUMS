@@ -90,7 +90,7 @@ namespace UUMS.API.Controllers
                 return BadRequest("参数错误，id不存在");
             }
 
-            menu.ParentId = param.ParentId;
+            //menu.ParentId = param.ParentId;
             menu.Name = param.Name;
             menu.AlwaysShow = param.AlwaysShow;
             menu.Hidden = param.Hidden;

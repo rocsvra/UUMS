@@ -34,6 +34,11 @@
             菜单
             </summary>
         </member>
+        <member name="P:UUMS.Domain.DO.Client.Roles">
+            <summary>
+            角色
+            </summary>
+        </member>
         <member name="P:UUMS.Domain.DO.FssInfo.FileName">
             <summary>
             文件名（虚拟磁盘路径/数据两级目录/文件名）
@@ -241,6 +246,16 @@
         <member name="P:UUMS.Domain.DO.Role.Users">
             <summary>
             关联用户
+            </summary>
+        </member>
+        <member name="P:UUMS.Domain.DO.Role.ClientId">
+            <summary>
+            客户端ID
+            </summary>
+        </member>
+        <member name="P:UUMS.Domain.DO.Role.Client">
+            <summary>
+            所属客户端
             </summary>
         </member>
         <member name="T:UUMS.Domain.DO.User">

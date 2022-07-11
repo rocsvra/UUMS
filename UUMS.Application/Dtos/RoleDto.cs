@@ -23,5 +23,10 @@ namespace UUMS.Application.Dtos
         /// 是否启用
         /// </summary>
         public bool Enabled { get; set; }
+
+        /// <summary>
+        /// 客户端
+        /// </summary>
+        public Guid ClientId { get; set; }
     }
 }
